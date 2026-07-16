@@ -1,12 +1,12 @@
-
-# Create the complete HTML with Formspree ID integrated
-html_code = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Al EmlaQ Travel - خدمات السفر والتأشيرات</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!-- Cloudflare Turnstile CAPTCHA -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
   :root {
     --gold: #c9a227;
@@ -27,18 +27,63 @@ html_code = '''<!DOCTYPE html>
     --shadow: 0 8px 32px rgba(201, 162, 39, 0.12);
     --shadow-lg: 0 16px 48px rgba(201, 162, 39, 0.18);
   }
-  
+
+  body.light-mode {
+    --bg-dark: #f5f5f7;
+    --bg-card: #ffffff;
+    --bg-input: #f0f0f5;
+    --text: #1a1a2e;
+    --text-dim: #6b6b80;
+    --border: #d1d1e0;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
+  }
+  body.light-mode .header {
+    background: linear-gradient(135deg, rgba(201, 162, 39, 0.08) 0%, rgba(192, 192, 192, 0.04) 50%, rgba(205, 127, 50, 0.06) 100%);
+    border-color: rgba(201, 162, 39, 0.15);
+  }
+  body.light-mode .contact-bar {
+    background: linear-gradient(135deg, rgba(201, 162, 39, 0.06) 0%, rgba(192, 192, 192, 0.03) 100%);
+    border-color: rgba(201, 162, 39, 0.1);
+  }
+  body.light-mode .rep-info-box {
+    background: linear-gradient(135deg, rgba(201, 162, 39, 0.06) 0%, rgba(192, 192, 192, 0.03) 100%);
+  }
+  body.light-mode .role-card {
+    background: linear-gradient(135deg, rgba(201, 162, 39, 0.04) 0%, rgba(192, 192, 192, 0.02) 100%);
+  }
+  body.light-mode .upload-zone {
+    background: rgba(201, 162, 39, 0.03);
+  }
+  body.light-mode .file-item {
+    background: linear-gradient(135deg, rgba(201, 162, 39, 0.05) 0%, rgba(192, 192, 192, 0.02) 100%);
+  }
+  body.light-mode .hotel-card,
+  body.light-mode .car-card,
+  body.light-mode .schengen-card {
+    background: linear-gradient(135deg, rgba(201, 162, 39, 0.04) 0%, rgba(192, 192, 192, 0.02) 100%);
+  }
+  body.light-mode .explore-btn {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--bronze) 100%);
+    color: white;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
+
   body {
     font-family: 'Cairo', 'Segoe UI', sans-serif;
-    background: linear-gradient(180deg, #0a0a1a 0%, #0d0d2a 30%, #12122a 70%, #0a0a1a 100%);
+    background: linear-gradient(180deg, var(--bg-dark) 0%, #0d0d2a 30%, var(--bg-card) 70%, var(--bg-dark) 100%);
     color: var(--text);
     min-height: 100vh;
     padding: 20px;
     overflow-x: hidden;
+    transition: all 0.4s ease;
   }
-  
+
+  body.light-mode {
+    background: linear-gradient(180deg, #f5f5f7 0%, #eaeaf0 30%, #ffffff 70%, #f5f5f7 100%);
+  }
+
   .particles {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -46,7 +91,7 @@ html_code = '''<!DOCTYPE html>
     z-index: 0;
     overflow: hidden;
   }
-  
+
   .particle {
     position: absolute;
     width: 3px; height: 3px;
@@ -55,21 +100,21 @@ html_code = '''<!DOCTYPE html>
     opacity: 0.2;
     animation: float 20s infinite linear;
   }
-  
+
   @keyframes float {
     0% { transform: translateY(100vh) translateX(0); opacity: 0; }
     10% { opacity: 0.3; }
     90% { opacity: 0.3; }
     100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
   }
-  
+
   .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     position: relative;
     z-index: 1;
   }
-  
+
   .header {
     text-align: center;
     padding: 40px 20px;
@@ -81,7 +126,7 @@ html_code = '''<!DOCTYPE html>
     position: relative;
     overflow: hidden;
   }
-  
+
   .header::before {
     content: '';
     position: absolute;
@@ -90,12 +135,12 @@ html_code = '''<!DOCTYPE html>
     background: linear-gradient(45deg, transparent 40%, rgba(201, 162, 39, 0.08) 50%, transparent 60%);
     animation: shimmer 8s infinite linear;
   }
-  
+
   @keyframes shimmer {
     0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
     100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
   }
-  
+
   .logo {
     font-family: 'Playfair Display', serif;
     font-size: 2.6rem;
@@ -108,14 +153,65 @@ html_code = '''<!DOCTYPE html>
     text-shadow: 0 0 50px rgba(201, 162, 39, 0.2);
     letter-spacing: 1px;
   }
-  
+
   .tagline {
     font-size: 1rem;
     color: var(--silver);
     opacity: 0.85;
     font-weight: 400;
   }
-  
+
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .explore-btn {
+    padding: 12px 28px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--bronze) 100%);
+    color: var(--bg-dark);
+    border: none;
+    border-radius: 25px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    font-family: 'Cairo', sans-serif;
+    box-shadow: 0 4px 20px rgba(201, 162, 39, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .explore-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(201, 162, 39, 0.5);
+  }
+
+  .theme-toggle {
+    padding: 10px 20px;
+    background: transparent;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    font-family: 'Cairo', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .theme-toggle:hover {
+    background: rgba(201, 162, 39, 0.1);
+    transform: translateY(-2px);
+  }
+
   .card {
     background: var(--bg-card);
     border-radius: 20px;
@@ -127,12 +223,12 @@ html_code = '''<!DOCTYPE html>
     overflow: hidden;
     transition: all 0.4s ease;
   }
-  
+
   .card:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 40px rgba(201, 162, 39, 0.15);
   }
-  
+
   .card::after {
     content: '';
     position: absolute;
@@ -142,12 +238,12 @@ html_code = '''<!DOCTYPE html>
     background-size: 400% 100%;
     animation: gradientSlide 5s linear infinite;
   }
-  
+
   @keyframes gradientSlide {
     0% { background-position: 0% 50%; }
     100% { background-position: 400% 50%; }
   }
-  
+
   .section-title {
     font-size: 1.25rem;
     font-weight: 800;
@@ -162,9 +258,9 @@ html_code = '''<!DOCTYPE html>
     align-items: center;
     gap: 12px;
   }
-  
+
   .form-group { margin-bottom: 20px; }
-  
+
   label {
     display: block;
     font-weight: 700;
@@ -172,9 +268,9 @@ html_code = '''<!DOCTYPE html>
     color: var(--silver-light);
     font-size: 0.95rem;
   }
-  
+
   .required::after { content: ' *'; color: var(--gold); }
-  
+
   input, select, textarea {
     width: 100%;
     padding: 16px 18px;
@@ -186,25 +282,29 @@ html_code = '''<!DOCTYPE html>
     color: var(--text);
     font-family: 'Cairo', sans-serif;
   }
-  
+
   input::placeholder, textarea::placeholder { color: var(--text-dim); opacity: 0.5; }
-  
+
   input:focus, select:focus, textarea:focus {
     outline: none;
     border-color: var(--gold);
     background: rgba(15, 52, 96, 0.6);
     box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.12), 0 0 25px rgba(201, 162, 39, 0.08);
   }
-  
+
+  body.light-mode input:focus, body.light-mode select:focus, body.light-mode textarea:focus {
+    background: rgba(201, 162, 39, 0.05);
+  }
+
   textarea { resize: vertical; min-height: 100px; }
-  
+
   .role-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     margin-bottom: 8px;
   }
-  
+
   .role-card {
     background: linear-gradient(135deg, rgba(201, 162, 39, 0.05) 0%, rgba(192, 192, 192, 0.03) 100%);
     border: 2px solid var(--border);
@@ -216,41 +316,41 @@ html_code = '''<!DOCTYPE html>
     position: relative;
     overflow: hidden;
   }
-  
+
   .role-card:hover {
     border-color: var(--gold);
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(201, 162, 39, 0.15);
   }
-  
+
   .role-card.selected {
     border-color: var(--gold);
     background: linear-gradient(135deg, rgba(201, 162, 39, 0.15) 0%, rgba(205, 127, 50, 0.1) 100%);
     box-shadow: 0 0 30px rgba(201, 162, 39, 0.2);
   }
-  
+
   .role-card .role-icon {
     font-size: 3rem;
     margin-bottom: 12px;
     display: block;
     transition: transform 0.3s ease;
   }
-  
+
   .role-card:hover .role-icon { transform: scale(1.1); }
-  
+
   .role-card .role-title {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--gold-light);
     margin-bottom: 6px;
   }
-  
+
   .role-card .role-desc {
     font-size: 0.8rem;
     color: var(--text-dim);
     line-height: 1.4;
   }
-  
+
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -263,9 +363,9 @@ html_code = '''<!DOCTYPE html>
     padding: 20px;
     animation: fadeIn 0.3s ease;
   }
-  
+
   .modal-overlay.show { display: flex; }
-  
+
   .modal {
     background: var(--bg-card);
     border-radius: 24px;
@@ -277,18 +377,18 @@ html_code = '''<!DOCTYPE html>
     animation: slideUp 0.4s ease;
     position: relative;
   }
-  
+
   @keyframes slideUp {
     from { opacity: 0; transform: translateY(40px) scale(0.95); }
     to { opacity: 1; transform: translateY(0) scale(1); }
   }
-  
+
   .modal-icon {
     font-size: 3.5rem;
     text-align: center;
     margin-bottom: 16px;
   }
-  
+
   .modal h3 {
     font-size: 1.4rem;
     text-align: center;
@@ -298,7 +398,7 @@ html_code = '''<!DOCTYPE html>
     background-clip: text;
     margin-bottom: 16px;
   }
-  
+
   .modal p {
     color: var(--text-dim);
     line-height: 1.8;
@@ -306,14 +406,14 @@ html_code = '''<!DOCTYPE html>
     margin-bottom: 24px;
     font-size: 0.95rem;
   }
-  
+
   .modal strong { color: var(--gold-light); }
-  
+
   .modal-actions {
     display: flex;
     gap: 12px;
   }
-  
+
   .btn {
     flex: 1;
     padding: 14px;
@@ -325,29 +425,29 @@ html_code = '''<!DOCTYPE html>
     transition: all 0.3s ease;
     font-family: 'Cairo', sans-serif;
   }
-  
+
   .btn-primary {
     background: linear-gradient(135deg, var(--gold) 0%, var(--bronze) 100%);
     color: var(--bg-dark);
     box-shadow: 0 4px 20px rgba(201, 162, 39, 0.3);
   }
-  
+
   .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 30px rgba(201, 162, 39, 0.4);
   }
-  
+
   .btn-secondary {
     background: transparent;
     color: var(--text-dim);
     border: 2px solid var(--border);
   }
-  
+
   .btn-secondary:hover {
     border-color: var(--gold);
     color: var(--gold);
   }
-  
+
   .upload-zone {
     border: 2px dashed var(--border);
     border-radius: 18px;
@@ -359,27 +459,27 @@ html_code = '''<!DOCTYPE html>
     position: relative;
     overflow: hidden;
   }
-  
+
   .upload-zone:hover {
     border-color: var(--gold);
     background: rgba(201, 162, 39, 0.05);
     box-shadow: 0 0 30px rgba(201, 162, 39, 0.1);
   }
-  
+
   .upload-zone .icon {
     font-size: 3rem;
     margin-bottom: 12px;
     display: block;
     filter: drop-shadow(0 0 8px rgba(201, 162, 39, 0.3));
   }
-  
+
   .upload-zone p { color: var(--silver); font-weight: 600; }
   .upload-zone .hint { font-size: 0.85rem; color: var(--text-dim); margin-top: 8px; }
-  
+
   input[type="file"] { display: none; }
-  
+
   .file-list { margin-top: 16px; }
-  
+
   .file-item {
     display: flex;
     align-items: center;
@@ -391,12 +491,12 @@ html_code = '''<!DOCTYPE html>
     border: 1px solid rgba(201, 162, 39, 0.15);
     animation: slideIn 0.4s ease;
   }
-  
+
   @keyframes slideIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  
+
   .file-item .file-info { display: flex; align-items: center; gap: 10px; flex: 1; }
   .file-item .file-name-input {
     border: none; background: transparent; font-size: 0.9rem;
@@ -412,7 +512,7 @@ html_code = '''<!DOCTYPE html>
     transition: all 0.3s ease;
   }
   .file-item .remove-btn:hover { transform: scale(1.1) rotate(90deg); }
-  
+
   .submit-btn {
     width: 100%;
     padding: 18px;
@@ -428,15 +528,19 @@ html_code = '''<!DOCTYPE html>
     box-shadow: 0 8px 30px rgba(201, 162, 39, 0.3);
     font-family: 'Cairo', sans-serif;
     animation: gradientShift 3s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
   }
-  
+
   @keyframes gradientShift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
   }
-  
+
   .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(201, 162, 39, 0.5); }
-  
+
   .success-message {
     display: none;
     text-align: center;
@@ -448,7 +552,7 @@ html_code = '''<!DOCTYPE html>
   @keyframes bounceIn { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
   .success-message h2 { font-size: 1.8rem; background: linear-gradient(135deg, var(--gold) 0%, var(--silver) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; }
   .success-message p { color: var(--silver); font-size: 1.05rem; }
-  
+
   .contact-bar {
     display: flex;
     justify-content: center;
@@ -460,7 +564,7 @@ html_code = '''<!DOCTYPE html>
     border-radius: 16px;
     border: 1px solid rgba(201, 162, 39, 0.15);
   }
-  
+
   .contact-item {
     display: flex;
     align-items: center;
@@ -476,16 +580,16 @@ html_code = '''<!DOCTYPE html>
     transition: all 0.3s ease;
     cursor: pointer;
   }
-  
+
   .contact-item:hover {
     background: rgba(201, 162, 39, 0.15);
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(201, 162, 39, 0.15);
   }
-  
+
   .hidden { display: none !important; }
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  
+
   @media (max-width: 600px) {
     .form-grid { grid-template-columns: 1fr; }
     .role-grid { grid-template-columns: 1fr; }
@@ -493,11 +597,14 @@ html_code = '''<!DOCTYPE html>
     .card { padding: 20px; }
     .modal { padding: 24px; }
     .contact-bar { flex-direction: column; align-items: center; }
+    .top-bar { flex-direction: column; align-items: stretch; }
+    .explore-grid { grid-template-columns: 1fr !important; }
+    .schengen-grid { grid-template-columns: 1fr !important; }
   }
-  
+
   .page { display: none; animation: fadeIn 0.5s ease; }
   .page.active { display: block; }
-  
+
   .back-btn {
     display: inline-flex;
     align-items: center;
@@ -513,12 +620,12 @@ html_code = '''<!DOCTYPE html>
     font-family: 'Cairo', sans-serif;
     margin-bottom: 16px;
   }
-  
+
   .back-btn:hover {
     background: rgba(201, 162, 39, 0.1);
     transform: translateX(-3px);
   }
-  
+
   .rep-info-box {
     background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(192, 192, 192, 0.05) 100%);
     border: 1px solid rgba(201, 162, 39, 0.2);
@@ -526,18 +633,18 @@ html_code = '''<!DOCTYPE html>
     padding: 16px 20px;
     margin-bottom: 20px;
   }
-  
+
   .rep-info-box h4 { color: var(--gold); font-size: 0.95rem; margin-bottom: 8px; }
   .rep-info-box p { color: var(--silver); font-size: 0.9rem; margin: 4px 0; }
   .rep-info-box strong { color: var(--gold-light); }
-  
+
   .lang-switch {
     display: flex;
     justify-content: center;
     gap: 12px;
     margin-bottom: 20px;
   }
-  
+
   .lang-btn {
     padding: 10px 28px;
     border: 2px solid var(--gold);
@@ -550,16 +657,16 @@ html_code = '''<!DOCTYPE html>
     font-size: 0.95rem;
     font-family: 'Cairo', sans-serif;
   }
-  
+
   .lang-btn.active {
     background: linear-gradient(135deg, var(--gold) 0%, var(--bronze) 100%);
     color: var(--bg-dark);
     border-color: var(--gold);
     box-shadow: 0 0 20px rgba(201, 162, 39, 0.4);
   }
-  
+
   .lang-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(201, 162, 39, 0.2); }
-  
+
   .spinner {
     display: none;
     width: 20px; height: 20px;
@@ -567,14 +674,351 @@ html_code = '''<!DOCTYPE html>
     border-top-color: var(--gold);
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    margin-right: 8px;
+    margin-left: 8px;
   }
-  
+
   @keyframes spin { to { transform: rotate(360deg); } }
-  
+
   .submit-btn.loading .spinner { display: inline-block; }
   .submit-btn.loading { pointer-events: none; opacity: 0.7; }
+
+  /* ===== HOTELS & CARS PAGE ===== */
+  .explore-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .hotel-card, .car-card {
+    background: linear-gradient(135deg, rgba(201, 162, 39, 0.06) 0%, rgba(192, 192, 192, 0.03) 100%);
+    border: 2px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    text-align: center;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hotel-card:hover, .car-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(201, 162, 39, 0.15);
+  }
+
+  .hotel-card .star-rating {
+    color: var(--gold);
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .hotel-card h4, .car-card h4 {
+    color: var(--gold-light);
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .hotel-card p, .car-card p {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .hotel-card .location {
+    color: var(--silver);
+    font-size: 0.8rem;
+    margin-top: 8px;
+  }
+
+  .car-card .car-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+  }
+
+  .car-card .car-specs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+
+  /* ===== SCHENGEN PAGE ===== */
+  .schengen-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .schengen-card {
+    background: linear-gradient(135deg, rgba(201, 162, 39, 0.06) 0%, rgba(192, 192, 192, 0.03) 100%);
+    border: 2px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .schengen-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(201, 162, 39, 0.12);
+  }
+
+  .schengen-card .country-flag {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+
+  .schengen-card h4 {
+    color: var(--gold-light);
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+
+  .schengen-card .visa-types {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .visa-badge {
+    background: rgba(201, 162, 39, 0.15);
+    color: var(--gold);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid rgba(201, 162, 39, 0.3);
+  }
+
+  .schengen-card .price {
+    color: var(--success);
+    font-weight: 800;
+    font-size: 1.1rem;
+    margin-top: 8px;
+  }
+
+  .schengen-card .price-note {
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    margin-top: 4px;
+  }
+
+  .schengen-contact {
+    text-align: center;
+    margin-top: 30px;
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(192, 192, 192, 0.05) 100%);
+    border-radius: 18px;
+    border: 1px solid rgba(201, 162, 39, 0.2);
+  }
+
+  .schengen-contact h3 {
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  /* ===== REP DASHBOARD ===== */
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-header h3 {
+    color: var(--gold);
+    font-size: 1.3rem;
+  }
+
+  .customer-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+  }
+
+  .customer-table th,
+  .customer-table td {
+    padding: 14px 12px;
+    text-align: right;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .customer-table th {
+    color: var(--gold);
+    font-weight: 800;
+    font-size: 0.9rem;
+    background: rgba(201, 162, 39, 0.08);
+  }
+
+  .customer-table td {
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+
+  .customer-table tr:hover td {
+    background: rgba(201, 162, 39, 0.04);
+  }
+
+  .action-btns {
+    display: flex;
+    gap: 6px;
+  }
+
+  .action-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cairo', sans-serif;
+  }
+
+  .action-btn.view {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .action-btn.view:hover {
+    background: rgba(16, 185, 129, 0.25);
+  }
+
+  .action-btn.delete {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--error);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .action-btn.delete:hover {
+    background: rgba(239, 68, 68, 0.25);
+  }
+
+  .customer-code {
+    background: rgba(201, 162, 39, 0.15);
+    color: var(--gold);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    font-family: monospace;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-dim);
+  }
+
+  .empty-state .icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+
+  /* ===== AUTH PAGES ===== */
+  .auth-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .auth-tab {
+    flex: 1;
+    padding: 12px;
+    background: transparent;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-dim);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cairo', sans-serif;
+  }
+
+  .auth-tab.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(201, 162, 39, 0.08);
+  }
+
+  .auth-tab:hover {
+    border-color: var(--gold);
+  }
+
+  .error-msg {
+    color: var(--error);
+    font-size: 0.85rem;
+    margin-top: 6px;
+    display: none;
+  }
+
+  .error-msg.show { display: block; }
+
+  .input-error {
+    border-color: var(--error) !important;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+  }
+
+  .captcha-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+
+  .info-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(201, 162, 39, 0.1);
+    border: 1px solid rgba(201, 162, 39, 0.2);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: linear-gradient(135deg, rgba(201, 162, 39, 0.08) 0%, rgba(192, 192, 192, 0.04) 100%);
+    border: 1px solid rgba(201, 162, 39, 0.15);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat-card .stat-num {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold);
+  }
+
+  .stat-card .stat-label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  @media (max-width: 600px) {
+    .stats-row { grid-template-columns: 1fr; }
+  }
 </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -586,34 +1030,44 @@ html_code = '''<!DOCTYPE html>
     <div class="logo">Al EmlaQ Travel</div>
     <p class="tagline" id="tagline">✨ حيث تصبح الرحلات ذكريات ذهبية ✨</p>
   </div>
-  
+
+  <!-- Top Bar: Theme + Explore -->
+  <div class="top-bar">
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+      <span id="themeIcon">☀️</span> <span id="themeText">وضع فاتح</span>
+    </button>
+    <button class="explore-btn" onclick="showPage('page-explore')" id="exploreBtn">
+      🔍 استكشاف
+    </button>
+  </div>
+
   <!-- Language Switch -->
   <div class="lang-switch">
     <button class="lang-btn active" onclick="setLang('ar')" id="btnAr">العربية</button>
     <button class="lang-btn" onclick="setLang('en')" id="btnEn">English</button>
   </div>
-  
-  <!-- PAGE 1: Who Are You -->
+
+  <!-- ==================== PAGE: ROLE SELECTION ==================== -->
   <div class="page active" id="page-role">
     <div class="card">
       <div class="section-title">
         <span>🎯</span>
         <span id="whoAreYou">انت مين؟</span>
       </div>
-      
+
       <div class="role-grid">
         <div class="role-card" onclick="selectRole('representative')">
           <span class="role-icon">🤝</span>
           <div class="role-title" id="roleRep">مندوب</div>
           <div class="role-desc" id="roleRepDesc">مندوب مبيعات أو وسيط سفر</div>
         </div>
-        
+
         <div class="role-card" onclick="selectRole('company')">
           <span class="role-icon">🏢</span>
           <div class="role-title" id="roleCompany">شركة</div>
           <div class="role-desc" id="roleCompanyDesc">شركة سفر أو وكالة</div>
         </div>
-        
+
         <div class="role-card" onclick="selectRole('client')">
           <span class="role-icon">👤</span>
           <div class="role-title" id="roleClient">عميل</div>
@@ -621,7 +1075,15 @@ html_code = '''<!DOCTYPE html>
         </div>
       </div>
     </div>
-    
+
+    <!-- Rep Login Prompt -->
+    <div class="card" style="text-align:center;">
+      <p style="color:var(--text-dim); margin-bottom:16px;" id="repLoginPrompt">لديك حساب مندوب/شركة؟ سجل دخولك هنا</p>
+      <button class="btn btn-primary" onclick="showPage('page-auth')" id="repLoginBtn" style="max-width:300px; margin:0 auto;">
+        🔐 تسجيل الدخول / إنشاء حساب
+      </button>
+    </div>
+
     <!-- Contact Info -->
     <div class="contact-bar">
       <a class="contact-item" href="https://wa.me/201509025388" target="_blank">
@@ -635,8 +1097,373 @@ html_code = '''<!DOCTYPE html>
       </a>
     </div>
   </div>
-  
-  <!-- PAGE 2: Disclaimer Modal -->
+
+  <!-- ==================== PAGE: AUTH (Login/Register) ==================== -->
+  <div class="page" id="page-auth">
+    <button class="back-btn" onclick="goBack()">← رجوع</button>
+
+    <div class="card">
+      <div class="section-title">
+        <span>🔐</span>
+        <span id="authTitle">تسجيل الدخول / إنشاء حساب</span>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('login')" id="tabLogin">تسجيل الدخول</button>
+        <button class="auth-tab" onclick="switchAuthTab('register')" id="tabRegister">إنشاء حساب</button>
+      </div>
+
+      <!-- Login Form -->
+      <div id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail" class="required">البريد الإلكتروني</label>
+          <input type="email" id="loginEmail" placeholder="example@email.com" required>
+          <div class="error-msg" id="loginEmailError">البريد الإلكتروني غير صحيح</div>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword" class="required">كلمة المرور</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required>
+          <div class="error-msg" id="loginPasswordError">كلمة المرور غير صحيحة</div>
+        </div>
+        <div class="captcha-container">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAAyOurDemoSiteKey" data-theme="dark"></div>
+        </div>
+        <button class="submit-btn" onclick="handleLogin()" id="loginSubmitBtn">
+          <span class="spinner"></span>
+          <span>🔓 تسجيل الدخول</span>
+        </button>
+      </div>
+
+      <!-- Register Form -->
+      <div id="registerForm" class="hidden">
+        <div class="form-group">
+          <label for="regName" class="required">الاسم الكامل</label>
+          <input type="text" id="regName" placeholder="MOHAMED ALI" required oninput="forceUppercase(this)">
+        </div>
+        <div class="form-group">
+          <label for="regEmail" class="required">البريد الإلكتروني</label>
+          <input type="email" id="regEmail" placeholder="example@email.com" required>
+          <div class="error-msg" id="regEmailError">البريد الإلكتروني مستخدم بالفعل</div>
+        </div>
+        <div class="form-group">
+          <label for="regPhone" class="required">رقم التليفون</label>
+          <input type="tel" id="regPhone" placeholder="01XXXXXXXXX" required maxlength="11" oninput="validatePhoneInput(this)">
+          <div class="error-msg" id="regPhoneError">يجب أن يكون 11 رقماً</div>
+        </div>
+        <div class="form-group">
+          <label for="regCompany" class="required">اسم الشركة / الاسم التسويقي</label>
+          <input type="text" id="regCompany" placeholder="AL EMLAQ TRAVEL" required oninput="forceUppercase(this)">
+        </div>
+        <div class="form-group">
+          <label for="regPassword" class="required">كلمة المرور</label>
+          <input type="password" id="regPassword" placeholder="••••••••" required minlength="6">
+          <div class="error-msg" id="regPasswordError">يجب أن تكون 6 أحرف على الأقل</div>
+        </div>
+        <div class="captcha-container">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAAyOurDemoSiteKey" data-theme="dark"></div>
+        </div>
+        <button class="submit-btn" onclick="handleRegister()" id="regSubmitBtn">
+          <span class="spinner"></span>
+          <span>✨ إنشاء حساب</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE: EXPLORE (Hotels + Cars + Schengen) ==================== -->
+  <div class="page" id="page-explore">
+    <button class="back-btn" onclick="goBack()">← رجوع</button>
+
+    <!-- Hotels Section -->
+    <div class="card">
+      <div class="section-title">
+        <span>🏨</span>
+        <span id="hotelsTitle">فنادق مصر</span>
+      </div>
+      <div class="info-badge" id="hotelsBadge">⭐ أفضل الفنادق في القاهرة والإسكندرية والغردقة وشرم الشيخ</div>
+      <div class="explore-grid">
+        <div class="hotel-card">
+          <div class="star-rating">⭐⭐⭐⭐⭐</div>
+          <h4>فندق النيل ريتز كارلتون</h4>
+          <p>أفضل إطلالة على نهر النيل في قلب القاهرة</p>
+          <div class="location">📍 القاهرة - وسط البلد</div>
+        </div>
+        <div class="hotel-card">
+          <div class="star-rating">⭐⭐⭐⭐⭐</div>
+          <h4>فور سيزونز القاهرة</h4>
+          <p>فخامة لا مثيل لها بجانب النيل</p>
+          <div class="location">📍 القاهرة - الجيزة</div>
+        </div>
+        <div class="hotel-card">
+          <div class="star-rating">⭐⭐⭐⭐⭐</div>
+          <h4>فندق سانت ريجيس القاهرة</h4>
+          <p>تجربة إقامة ملكية في أرقى أحياء القاهرة</p>
+          <div class="location">📍 القاهرة - نايل كورنيش</div>
+        </div>
+        <div class="hotel-card">
+          <div class="star-rating">⭐⭐⭐⭐</div>
+          <h4>فندق كمبينسكي النيل</h4>
+          <p>خدمة عالمية وموقع متميز</p>
+          <div class="location">📍 القاهرة - جاردن سيتي</div>
+        </div>
+        <div class="hotel-card">
+          <div class="star-rating">⭐⭐⭐⭐⭐</div>
+          <h4>فندق سان ستيفانو ألكسندر</h4>
+          <p>إطلالة بحرية ساحرة في الإسكندرية</p>
+          <div class="location">📍 الإسكندرية - سان ستيفانو</div>
+        </div>
+        <div class="hotel-card">
+          <div class="star-rating">⭐⭐⭐⭐⭐</div>
+          <h4>فندق فور سيزونز شرم الشيخ</h4>
+          <p>جنة على الأرض بين البحر والجبل</p>
+          <div class="location">📍 شرم الشيخ</div>
+        </div>
+        <div class="hotel-card">
+          <div class="star-rating">⭐⭐⭐⭐⭐</div>
+          <h4>فندق بارون ريزورتس الغردقة</h4>
+          <p>شواطئ رملية ذهبية ومياه صافية</p>
+          <div class="location">📍 الغردقة</div>
+        </div>
+        <div class="hotel-card">
+          <div class="star-rating">⭐⭐⭐⭐</div>
+          <h4>فندق موفنبيك الغردقة</h4>
+          <p>أجوار عائلية رائعة على البحر الأحمر</p>
+          <div class="location">📍 الغردقة - سهل حشيش</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cars Section -->
+    <div class="card">
+      <div class="section-title">
+        <span>🚗</span>
+        <span id="carsTitle">أسطول السيارات</span>
+      </div>
+      <div class="info-badge" id="carsBadge">🚙 أكبر أسطول سيارات في مصر - جميع الموديلات متاحة</div>
+      <div class="explore-grid">
+        <div class="car-card">
+          <div class="car-icon">🚗</div>
+          <h4>مرسيدس S-Class</h4>
+          <p>سيارة فاخرة للرحلات الخاصة والاستقبال</p>
+          <div class="car-specs">
+            <span>🪑 4 مقاعد</span>
+            <span>❄️ تكييف</span>
+            <span>📶 واي فاي</span>
+          </div>
+        </div>
+        <div class="car-card">
+          <div class="car-icon">🚙</div>
+          <h4>تويوتا لاند كروزر</h4>
+          <p>دفع رباعي قوي للرحلات البرية</p>
+          <div class="car-specs">
+            <span>🪑 7 مقاعد</span>
+            <span>🏔️ دفع رباعي</span>
+            <span>📶 واي فاي</span>
+          </div>
+        </div>
+        <div class="car-card">
+          <div class="car-icon">🚐</div>
+          <h4>هيونداي H1</h4>
+          <p>ميني باص مريح للمجموعات</p>
+          <div class="car-specs">
+            <span>🪑 11 مقعد</span>
+            <span>❄️ تكييف</span>
+            <span>🎵 ساوند سيستم</span>
+          </div>
+        </div>
+        <div class="car-card">
+          <div class="car-icon">🚌</div>
+          <h4>باص كوستر 28 راكب</h4>
+          <p>للرحلات الجماعية والشركات</p>
+          <div class="car-specs">
+            <span>🪑 28 مقعد</span>
+            <span>❄️ تكييف مركزي</span>
+            <span>📺 شاشات</span>
+          </div>
+        </div>
+        <div class="car-card">
+          <div class="car-icon">🚗</div>
+          <h4>بي إم دبليو الفئة السابعة</h4>
+          <p>رقي وأداء عالي للمناسبات الخاصة</p>
+          <div class="car-specs">
+            <span>🪑 4 مقاعد</span>
+            <span>❄️ تكييف</span>
+            <span>📶 واي فاي</span>
+          </div>
+        </div>
+        <div class="car-card">
+          <div class="car-icon">🚙</div>
+          <h4>نيسان باترول</h4>
+          <p>قوة ومتانة للرحلات الصحراوية</p>
+          <div class="car-specs">
+            <span>🪑 8 مقاعد</span>
+            <span>🏔️ دفع رباعي</span>
+            <span>📶 واي فاي</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Schengen Section -->
+    <div class="card">
+      <div class="section-title">
+        <span>🇪🇺</span>
+        <span id="schengenTitle">تأشيرات الشنغن</span>
+      </div>
+      <div class="info-badge" id="schengenBadge">🌍 27 دولة أوروبية - تأشيرة واحدة تفتح لك القارة</div>
+      <div class="schengen-grid">
+        <div class="schengen-card">
+          <div class="country-flag">🇩🇪</div>
+          <h4>ألمانيا</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">دراسة</span>
+          </div>
+          <div class="price">€80 - €120</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+        <div class="schengen-card">
+          <div class="country-flag">🇫🇷</div>
+          <h4>فرنسا</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">ترانزيت</span>
+          </div>
+          <div class="price">€80 - €110</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+        <div class="schengen-card">
+          <div class="country-flag">🇮🇹</div>
+          <h4>إيطاليا</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">دراسة</span>
+          </div>
+          <div class="price">€80 - €100</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+        <div class="schengen-card">
+          <div class="country-flag">🇪🇸</div>
+          <h4>إسبانيا</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">ترانزيت</span>
+          </div>
+          <div class="price">€80 - €105</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+        <div class="schengen-card">
+          <div class="country-flag">🇳🇱</div>
+          <h4>هولندا</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">دراسة</span>
+          </div>
+          <div class="price">€80 - €115</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+        <div class="schengen-card">
+          <div class="country-flag">🇬🇷</div>
+          <h4>اليونان</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">ترانزيت</span>
+          </div>
+          <div class="price">€80 - €95</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+        <div class="schengen-card">
+          <div class="country-flag">🇦🇹</div>
+          <h4>النمسا</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">دراسة</span>
+          </div>
+          <div class="price">€80 - €110</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+        <div class="schengen-card">
+          <div class="country-flag">🇵🇹</div>
+          <h4>البرتغال</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">ترانزيت</span>
+          </div>
+          <div class="price">€80 - €100</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+        <div class="schengen-card">
+          <div class="country-flag">🇧🇪</div>
+          <h4>بلجيكا</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">دراسة</span>
+          </div>
+          <div class="price">€80 - €110</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+        <div class="schengen-card">
+          <div class="country-flag">🇨🇿</div>
+          <h4>التشيك</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">ترانزيت</span>
+          </div>
+          <div class="price">€80 - €95</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+        <div class="schengen-card">
+          <div class="country-flag">🇭🇺</div>
+          <h4>المجر</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">دراسة</span>
+          </div>
+          <div class="price">€80 - €90</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+        <div class="schengen-card">
+          <div class="country-flag">🇵🇱</div>
+          <h4>بولندا</h4>
+          <div class="visa-types">
+            <span class="visa-badge">سياحية</span>
+            <span class="visa-badge">عمل</span>
+            <span class="visa-badge">ترانزيت</span>
+          </div>
+          <div class="price">€80 - €90</div>
+          <div class="price-note">سعر مقترح شامل التأمين</div>
+        </div>
+      </div>
+
+      <div class="schengen-contact">
+        <h3 id="schengenContactTitle">📞 للاستفسار والحجز</h3>
+        <div class="contact-bar" style="margin-top:16px;">
+          <a class="contact-item" href="https://wa.me/201509025388" target="_blank">
+            <span>💬</span> WhatsApp
+          </a>
+          <a class="contact-item" href="tel:+201029360817">
+            <span>📞</span> +20 102 936 0817
+          </a>
+          <a class="contact-item" href="tel:+201039132274">
+            <span>📞</span> +20 103 913 2274
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DISCLAIMER MODAL ==================== -->
   <div class="modal-overlay" id="disclaimer-modal">
     <div class="modal">
       <div class="modal-icon">⚠️</div>
@@ -652,85 +1479,88 @@ html_code = '''<!DOCTYPE html>
       </div>
     </div>
   </div>
-  
-  <!-- PAGE 3: Rep/Company Registration -->
+
+  <!-- ==================== PAGE: REP REGISTRATION (Quick) ==================== -->
   <div class="page" id="page-rep-reg">
     <button class="back-btn" onclick="goBack()">← رجوع</button>
-    
+
     <div class="card">
       <div class="section-title">
         <span>📝</span>
         <span id="repRegTitle">تسجيل المندوب / الشركة</span>
       </div>
-      
+
       <div class="form-group">
         <label for="repName" class="required" id="labelRepName">الاسم الكامل</label>
-        <input type="text" id="repName" required>
+        <input type="text" id="repName" required oninput="forceUppercase(this)">
       </div>
-      
+
       <div class="form-group">
         <label for="repPhone" class="required" id="labelRepPhone">رقم التليفون</label>
-        <input type="tel" id="repPhone" required>
+        <input type="tel" id="repPhone" required maxlength="11" oninput="validatePhoneInput(this)">
+        <div class="error-msg" id="repPhoneError">يجب أن يكون 11 رقماً</div>
       </div>
-      
+
       <div class="form-group">
         <label for="repCompanyName" class="required" id="labelRepCompanyName">اسم الشركة / الاسم التسويقي</label>
-        <input type="text" id="repCompanyName" required>
+        <input type="text" id="repCompanyName" required oninput="forceUppercase(this)">
       </div>
-      
+
       <button class="submit-btn" onclick="submitRepReg()" id="repRegSubmit">التالي →</button>
     </div>
   </div>
-  
-  <!-- PAGE 4: Add Customer (Rep/Company) -->
+
+  <!-- ==================== PAGE: ADD CUSTOMER (Rep/Company) ==================== -->
   <div class="page" id="page-add-customer-rep">
     <button class="back-btn" onclick="goBack()">← رجوع</button>
-    
+
     <div class="rep-info-box" id="repInfoDisplay">
       <h4>🤝 المندوب / الشركة</h4>
       <p><strong>الاسم:</strong> <span id="displayRepName">-</span></p>
       <p><strong>الشركة:</strong> <span id="displayRepCompany">-</span></p>
       <p><strong>التليفون:</strong> <span id="displayRepPhone">-</span></p>
     </div>
-    
+
     <!-- Formspree Form for Rep Customer -->
     <form id="customerFormRep" action="https://formspree.io/f/xvzezqkn" method="POST">
       <input type="hidden" name="_subject" value="Al EmlaQ - New Customer (Rep)">
       <input type="hidden" name="form_type" value="rep_customer">
-      
+
       <!-- Rep Info (hidden fields) -->
       <input type="hidden" name="rep_name" id="hiddenRepName">
       <input type="hidden" name="rep_company" id="hiddenRepCompany">
       <input type="hidden" name="rep_phone" id="hiddenRepPhone">
-      
+
       <div class="card">
         <div class="section-title">
           <span>🛂</span>
           <span id="customerPassportTitle">بيانات جواز السفر</span>
         </div>
-        
+
         <div class="form-grid">
           <div class="form-group">
             <label for="custFullName" class="required" id="labelCustName">الاسم (كما في الجواز)</label>
-            <input type="text" id="custFullName" name="customer_name" required>
+            <input type="text" id="custFullName" name="customer_name" required oninput="forceUppercase(this)">
           </div>
           <div class="form-group">
             <label for="custPhone" class="required" id="labelCustPhone">رقم الهاتف</label>
-            <input type="tel" id="custPhone" name="customer_phone" required>
+            <input type="tel" id="custPhone" name="customer_phone" required maxlength="11" oninput="validatePhoneInput(this)">
+            <div class="error-msg" id="custPhoneError">يجب أن يكون 11 رقماً</div>
           </div>
         </div>
-        
+
         <div class="form-grid">
           <div class="form-group">
             <label for="custNationality" class="required" id="labelCustNationality">الجنسية</label>
-            <input type="text" id="custNationality" name="nationality" required>
+            <input type="text" id="custNationality" name="nationality" required oninput="forceUppercase(this)">
           </div>
           <div class="form-group">
             <label for="custPassportNum" class="required" id="labelCustPassportNum">رقم الجواز</label>
-            <input type="text" id="custPassportNum" name="passport_number" required>
+            <input type="text" id="custPassportNum" name="passport_number" required oninput="forceUppercase(this)">
+            <div class="error-msg" id="passportDupError">رقم الجواز مسجل بالفعل</div>
           </div>
         </div>
-        
+
         <div class="form-grid">
           <div class="form-group">
             <label for="custIssueDate" class="required" id="labelCustIssueDate">تاريخ الإصدار</label>
@@ -741,28 +1571,28 @@ html_code = '''<!DOCTYPE html>
             <input type="date" id="custExpiryDate" name="expiry_date" required>
           </div>
         </div>
-        
+
         <div class="form-group">
           <label for="custBirthDate" class="required" id="labelCustBirthDate">تاريخ الميلاد</label>
           <input type="date" id="custBirthDate" name="birth_date" required>
         </div>
-        
+
         <div class="form-group">
           <label for="custDestination" class="required" id="labelCustDestination">الوجهة</label>
-          <input type="text" id="custDestination" name="destination" required>
+          <input type="text" id="custDestination" name="destination" required oninput="forceUppercase(this)">
         </div>
-        
+
         <div class="form-group">
           <label for="custTravelDate" class="required" id="labelCustTravelDate">تاريخ السفر</label>
           <input type="date" id="custTravelDate" name="travel_date" required>
         </div>
-        
+
         <div class="form-group">
           <label for="custNotes" id="labelCustNotes">ملاحظات</label>
           <textarea id="custNotes" name="notes"></textarea>
         </div>
       </div>
-      
+
       <div class="card">
         <div class="section-title">
           <span>📄</span>
@@ -776,7 +1606,7 @@ html_code = '''<!DOCTYPE html>
         <input type="file" id="passportInput" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(this, 'passport')">
         <div class="file-list" id="passportList"></div>
       </div>
-      
+
       <div class="card">
         <div class="section-title">
           <span>📸</span>
@@ -790,7 +1620,7 @@ html_code = '''<!DOCTYPE html>
         <input type="file" id="photoInput" accept=".jpg,.jpeg,.png" onchange="handleFileSelect(this, 'photo')">
         <div class="file-list" id="photoList"></div>
       </div>
-      
+
       <div class="card">
         <div class="section-title">
           <span>📎</span>
@@ -804,62 +1634,76 @@ html_code = '''<!DOCTYPE html>
         <input type="file" id="docsInput" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(this, 'docs')">
         <div class="file-list" id="docsList"></div>
       </div>
-      
+
+      <!-- CAPTCHA -->
+      <div class="card" style="text-align:center;">
+        <div class="captcha-container">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAAyOurDemoSiteKey" data-theme="dark"></div>
+        </div>
+      </div>
+
       <button type="submit" class="submit-btn" id="submitCustomerBtn">
         <span class="spinner"></span>
         <span>🚀 إرسال بيانات العميل</span>
       </button>
     </form>
   </div>
-  
-  <!-- PAGE 5: Direct Client Form -->
+
+  <!-- ==================== PAGE: DIRECT CLIENT FORM ==================== -->
   <div class="page" id="page-client-direct">
     <button class="back-btn" onclick="goBack()">← رجوع</button>
-    
+
     <!-- Formspree Form for Direct Client -->
     <form id="clientFormDirect" action="https://formspree.io/f/xvzezqkn" method="POST">
       <input type="hidden" name="_subject" value="Al EmlaQ - New Client (Direct)">
       <input type="hidden" name="form_type" value="direct_client">
-      
+
       <div class="card">
         <div class="section-title">
           <span>🛂</span>
           <span id="clientDirectTitle">بياناتك الشخصية</span>
         </div>
-        
+
         <div class="form-grid">
           <div class="form-group">
             <label for="clientName" class="required" id="labelClientName">الاسم الكامل</label>
-            <input type="text" id="clientName" name="client_name" required>
+            <input type="text" id="clientName" name="client_name" required oninput="forceUppercase(this)">
           </div>
           <div class="form-group">
             <label for="clientPhone" class="required" id="labelClientPhone">رقم الهاتف</label>
-            <input type="tel" id="clientPhone" name="client_phone" required>
+            <input type="tel" id="clientPhone" name="client_phone" required maxlength="11" oninput="validatePhoneInput(this)">
+            <div class="error-msg" id="clientPhoneError">يجب أن يكون 11 رقماً</div>
           </div>
         </div>
-        
+
         <div class="form-group">
           <label for="clientEmail" id="labelClientEmail">البريد الإلكتروني (إن وجد)</label>
           <input type="email" id="clientEmail" name="client_email">
         </div>
-        
+
         <div class="form-grid">
           <div class="form-group">
-            <label for="clientDestination" class="required" id="labelClientDestination">الوجهة</label>
-            <input type="text" id="clientDestination" name="destination" required>
+            <label for="clientPassportNum" class="required" id="labelClientPassportNum">رقم الجواز</label>
+            <input type="text" id="clientPassportNum" name="passport_number" required oninput="forceUppercase(this)">
+            <div class="error-msg" id="clientPassportDupError">رقم الجواز مسجل بالفعل</div>
           </div>
           <div class="form-group">
-            <label for="clientTravelDate" class="required" id="labelClientTravelDate">تاريخ السفر</label>
-            <input type="date" id="clientTravelDate" name="travel_date" required>
+            <label for="clientDestination" class="required" id="labelClientDestination">الوجهة</label>
+            <input type="text" id="clientDestination" name="destination" required oninput="forceUppercase(this)">
           </div>
         </div>
-        
+
+        <div class="form-group">
+          <label for="clientTravelDate" class="required" id="labelClientTravelDate">تاريخ السفر</label>
+          <input type="date" id="clientTravelDate" name="travel_date" required>
+        </div>
+
         <div class="form-group">
           <label for="clientNotes" id="labelClientNotes">ملاحظات</label>
           <textarea id="clientNotes" name="notes"></textarea>
         </div>
       </div>
-      
+
       <div class="card">
         <div class="section-title">
           <span>📄</span>
@@ -873,7 +1717,7 @@ html_code = '''<!DOCTYPE html>
         <input type="file" id="clientPassportInput" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(this, 'clientPassport')">
         <div class="file-list" id="clientPassportList"></div>
       </div>
-      
+
       <div class="card">
         <div class="section-title">
           <span>📎</span>
@@ -887,15 +1731,206 @@ html_code = '''<!DOCTYPE html>
         <input type="file" id="clientDocsInput" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(this, 'clientDocs')">
         <div class="file-list" id="clientDocsList"></div>
       </div>
-      
+
+      <!-- CAPTCHA -->
+      <div class="card" style="text-align:center;">
+        <div class="captcha-container">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAAyOurDemoSiteKey" data-theme="dark"></div>
+        </div>
+      </div>
+
       <button type="submit" class="submit-btn" id="submitClientBtn">
         <span class="spinner"></span>
         <span>🚀 إرسال الطلب</span>
       </button>
     </form>
   </div>
-  
-  <!-- PAGE 6: Success -->
+
+  <!-- ==================== PAGE: REP DASHBOARD ==================== -->
+  <div class="page" id="page-rep-dashboard">
+    <button class="back-btn" onclick="logoutRep()">🚪 تسجيل الخروج</button>
+
+    <div class="card">
+      <div class="dashboard-header">
+        <h3 id="dashboardTitle">📊 لوحة تحكم المندوب</h3>
+        <button class="explore-btn" onclick="showPage('page-add-customer-rep-logged')" style="font-size:0.85rem; padding:10px 20px;">
+          ➕ عميل جديد
+        </button>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num" id="statTotal">0</div>
+          <div class="stat-label">إجمالي العملاء</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statToday">0</div>
+          <div class="stat-label">اليوم</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statMonth">0</div>
+          <div class="stat-label">هذا الشهر</div>
+        </div>
+      </div>
+
+      <div id="customersList">
+        <table class="customer-table">
+          <thead>
+            <tr>
+              <th>الكود</th>
+              <th>الاسم</th>
+              <th>رقم الجواز</th>
+              <th>الوجهة</th>
+              <th>تاريخ التسجيل</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="customersTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="empty-state hidden" id="emptyState">
+        <div class="icon">📭</div>
+        <p>لا يوجد عملاء مسجلين بعد</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE: ADD CUSTOMER (Logged Rep) ==================== -->
+  <div class="page" id="page-add-customer-rep-logged">
+    <button class="back-btn" onclick="showPage('page-rep-dashboard')">← رجوع للوحة التحكم</button>
+
+    <div class="rep-info-box" id="repInfoDisplayLogged">
+      <h4>🤝 المندوب / الشركة</h4>
+      <p><strong>الاسم:</strong> <span id="displayRepNameLogged">-</span></p>
+      <p><strong>الشركة:</strong> <span id="displayRepCompanyLogged">-</span></p>
+      <p><strong>التليفون:</strong> <span id="displayRepPhoneLogged">-</span></p>
+    </div>
+
+    <form id="customerFormRepLogged" action="https://formspree.io/f/xvzezqkn" method="POST">
+      <input type="hidden" name="_subject" value="Al EmlaQ - New Customer (Rep)">
+      <input type="hidden" name="form_type" value="rep_customer">
+      <input type="hidden" name="rep_name" id="hiddenRepNameLogged">
+      <input type="hidden" name="rep_company" id="hiddenRepCompanyLogged">
+      <input type="hidden" name="rep_phone" id="hiddenRepPhoneLogged">
+
+      <div class="card">
+        <div class="section-title">
+          <span>🛂</span>
+          <span>بيانات جواز السفر</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="required">الاسم (كما في الجواز)</label>
+            <input type="text" name="customer_name" required oninput="forceUppercase(this)">
+          </div>
+          <div class="form-group">
+            <label class="required">رقم الهاتف</label>
+            <input type="tel" name="customer_phone" required maxlength="11" oninput="validatePhoneInput(this)">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="required">الجنسية</label>
+            <input type="text" name="nationality" required oninput="forceUppercase(this)">
+          </div>
+          <div class="form-group">
+            <label class="required">رقم الجواز</label>
+            <input type="text" name="passport_number" required oninput="forceUppercase(this)">
+            <div class="error-msg" id="loggedPassportDupError">رقم الجواز مسجل بالفعل</div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="required">تاريخ الإصدار</label>
+            <input type="date" name="issue_date" required>
+          </div>
+          <div class="form-group">
+            <label class="required">تاريخ الانتهاء</label>
+            <input type="date" name="expiry_date" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="required">تاريخ الميلاد</label>
+          <input type="date" name="birth_date" required>
+        </div>
+
+        <div class="form-group">
+          <label class="required">الوجهة</label>
+          <input type="text" name="destination" required oninput="forceUppercase(this)">
+        </div>
+
+        <div class="form-group">
+          <label class="required">تاريخ السفر</label>
+          <input type="date" name="travel_date" required>
+        </div>
+
+        <div class="form-group">
+          <label>ملاحظات</label>
+          <textarea name="notes"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <span>📄</span>
+          <span>صورة جواز السفر</span>
+        </div>
+        <div class="upload-zone" onclick="document.getElementById('passportInputLogged').click()">
+          <span class="icon">🛂</span>
+          <p>اضغط هنا لرفع صورة جواز السفر</p>
+          <p class="hint">PDF, JPG, PNG (Max 10MB)</p>
+        </div>
+        <input type="file" id="passportInputLogged" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(this, 'passport')">
+        <div class="file-list" id="passportListLogged"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <span>📸</span>
+          <span>الصورة الشخصية</span>
+        </div>
+        <div class="upload-zone" onclick="document.getElementById('photoInputLogged').click()">
+          <span class="icon">👤</span>
+          <p>اضغط هنا لرفع الصورة الشخصية</p>
+          <p class="hint">صورة واضحة أو صورة من الواتساب</p>
+        </div>
+        <input type="file" id="photoInputLogged" accept=".jpg,.jpeg,.png" onchange="handleFileSelect(this, 'photo')">
+        <div class="file-list" id="photoListLogged"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">
+          <span>📎</span>
+          <span>أوراق إضافية</span>
+        </div>
+        <div class="upload-zone" onclick="document.getElementById('docsInputLogged').click()">
+          <span class="icon">📁</span>
+          <p>اضغط هنا لرفع أوراق إضافية</p>
+          <p class="hint">يمكن رفع أكثر من ملف</p>
+        </div>
+        <input type="file" id="docsInputLogged" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(this, 'docs')">
+        <div class="file-list" id="docsListLogged"></div>
+      </div>
+
+      <div class="card" style="text-align:center;">
+        <div class="captcha-container">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAAyOurDemoSiteKey" data-theme="dark"></div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitCustomerBtnLogged">
+        <span class="spinner"></span>
+        <span>🚀 إرسال بيانات العميل</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- ==================== PAGE: SUCCESS ==================== -->
   <div class="page" id="page-success">
     <div class="success-message show" style="display:block;">
       <div class="check-icon">✅</div>
@@ -905,7 +1940,19 @@ html_code = '''<!DOCTYPE html>
       <button class="btn btn-secondary" onclick="resetApp()" id="newEntryBtn">🔄 إدخال جديد</button>
     </div>
   </div>
-  
+
+  <!-- ==================== PAGE: CUSTOMER DETAIL VIEW ==================== -->
+  <div class="page" id="page-customer-detail">
+    <button class="back-btn" onclick="showPage('page-rep-dashboard')">← رجوع للقائمة</button>
+    <div class="card" id="customerDetailCard">
+      <div class="section-title">
+        <span>👁️</span>
+        <span>تفاصيل العميل</span>
+      </div>
+      <div id="customerDetailContent"></div>
+    </div>
+  </div>
+
   <!-- Contact Bar -->
   <div class="contact-bar" id="contactBar" style="margin-top:20px;">
     <a class="contact-item" href="https://wa.me/201509025388" target="_blank">
@@ -921,7 +1968,7 @@ html_code = '''<!DOCTYPE html>
 </div>
 
 <script>
-  // Particles
+  // ==================== PARTICLES ====================
   function createParticles() {
     const container = document.getElementById('particles');
     for (let i = 0; i < 25; i++) {
@@ -935,15 +1982,589 @@ html_code = '''<!DOCTYPE html>
     }
   }
   createParticles();
-  
-  // State
+
+  // ==================== STATE ====================
   let currentLang = 'ar';
   let selectedRole = null;
   let repData = {};
   let files = { passport: [], photo: [], docs: [], clientPassport: [], clientDocs: [] };
   let pageHistory = ['page-role'];
-  
-  // Translations
+  let currentUser = null;
+
+  // ==================== LOCALSTORAGE KEYS ====================
+  const LS_USERS = 'al_emlaq_users';
+  const LS_CUSTOMERS = 'al_emlaq_customers';
+  const LS_USED_PASSPORTS = 'al_emlaq_used_passports';
+  const LS_USED_PHONES = 'al_emlaq_used_phones';
+  const LS_CURRENT_USER = 'al_emlaq_current_user';
+
+  // ==================== THEME TOGGLE ====================
+  function toggleTheme() {
+    document.body.classList.toggle('light-mode');
+    const isLight = document.body.classList.contains('light-mode');
+    document.getElementById('themeIcon').textContent = isLight ? '🌙' : '☀️';
+    document.getElementById('themeText').textContent = isLight
+      ? (currentLang === 'ar' ? 'وضع داكن' : 'Dark Mode')
+      : (currentLang === 'ar' ? 'وضع فاتح' : 'Light Mode');
+    localStorage.setItem('al_emlaq_theme', isLight ? 'light' : 'dark');
+  }
+
+  // Load saved theme
+  if (localStorage.getItem('al_emlaq_theme') === 'light') {
+    document.body.classList.add('light-mode');
+  }
+
+  // ==================== FORCE UPPERCASE ====================
+  function forceUppercase(input) {
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    input.value = input.value.toUpperCase();
+    input.setSelectionRange(start, end);
+  }
+
+  // ==================== PHONE VALIDATION ====================
+  function validatePhoneInput(input) {
+    input.value = input.value.replace(/\D/g, '').slice(0, 11);
+    const errorId = input.id + 'Error';
+    const errorEl = document.getElementById(errorId);
+    if (errorEl) {
+      if (input.value.length > 0 && input.value.length !== 11) {
+        errorEl.classList.add('show');
+        input.classList.add('input-error');
+      } else {
+        errorEl.classList.remove('show');
+        input.classList.remove('input-error');
+      }
+    }
+  }
+
+  function isValidPhone(phone) {
+    return /^\d{11}$/.test(phone);
+  }
+
+  // ==================== DUPLICATE CHECK ====================
+  function isPassportUsed(passportNum) {
+    const used = JSON.parse(localStorage.getItem(LS_USED_PASSPORTS) || '[]');
+    return used.includes(passportNum.toUpperCase().trim());
+  }
+
+  function isPhoneUsed(phone) {
+    const used = JSON.parse(localStorage.getItem(LS_USED_PHONES) || '[]');
+    return used.includes(phone.trim());
+  }
+
+  function markPassportUsed(passportNum) {
+    const used = JSON.parse(localStorage.getItem(LS_USED_PASSPORTS) || '[]');
+    used.push(passportNum.toUpperCase().trim());
+    localStorage.setItem(LS_USED_PASSPORTS, JSON.stringify(used));
+  }
+
+  function markPhoneUsed(phone) {
+    const used = JSON.parse(localStorage.getItem(LS_USED_PHONES) || '[]');
+    used.push(phone.trim());
+    localStorage.setItem(LS_USED_PHONES, JSON.stringify(used));
+  }
+
+  // ==================== USER AUTH (LocalStorage) ====================
+  function getUsers() {
+    return JSON.parse(localStorage.getItem(LS_USERS) || '[]');
+  }
+
+  function saveUser(user) {
+    const users = getUsers();
+    users.push(user);
+    localStorage.setItem(LS_USERS, JSON.stringify(users));
+  }
+
+  function findUser(email) {
+    return getUsers().find(u => u.email === email);
+  }
+
+  function setCurrentUser(user) {
+    currentUser = user;
+    if (user) {
+      localStorage.setItem(LS_CURRENT_USER, JSON.stringify(user));
+    } else {
+      localStorage.removeItem(LS_CURRENT_USER);
+    }
+  }
+
+  function getCurrentUser() {
+    if (currentUser) return currentUser;
+    const saved = localStorage.getItem(LS_CURRENT_USER);
+    return saved ? JSON.parse(saved) : null;
+  }
+
+  function generateCustomerCode() {
+    return 'CUST-' + Date.now().toString(36).toUpperCase();
+  }
+
+  function saveCustomer(customer) {
+    const customers = JSON.parse(localStorage.getItem(LS_CUSTOMERS) || '[]');
+    customers.push(customer);
+    localStorage.setItem(LS_CUSTOMERS, JSON.stringify(customers));
+  }
+
+  function getRepCustomers(repEmail) {
+    const customers = JSON.parse(localStorage.getItem(LS_CUSTOMERS) || '[]');
+    return customers.filter(c => c.repEmail === repEmail);
+  }
+
+  function deleteCustomer(code) {
+    let customers = JSON.parse(localStorage.getItem(LS_CUSTOMERS) || '[]');
+    customers = customers.filter(c => c.code !== code);
+    localStorage.setItem(LS_CUSTOMERS, JSON.stringify(customers));
+    renderDashboard();
+  }
+
+  // ==================== AUTH HANDLERS ====================
+  function switchAuthTab(tab) {
+    document.getElementById('loginForm').classList.toggle('hidden', tab !== 'login');
+    document.getElementById('registerForm').classList.toggle('hidden', tab !== 'register');
+    document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+    document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
+  }
+
+  function handleLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const btn = document.getElementById('loginSubmitBtn');
+
+    document.getElementById('loginEmailError').classList.remove('show');
+    document.getElementById('loginPasswordError').classList.remove('show');
+
+    if (!email || !password) {
+      alert(currentLang === 'ar' ? 'يرجى ملء جميع الحقول' : 'Please fill all fields');
+      return;
+    }
+
+    btn.classList.add('loading');
+
+    setTimeout(() => {
+      const user = findUser(email);
+      if (!user) {
+        document.getElementById('loginEmailError').classList.add('show');
+        btn.classList.remove('loading');
+        return;
+      }
+      if (user.password !== password) {
+        document.getElementById('loginPasswordError').classList.add('show');
+        btn.classList.remove('loading');
+        return;
+      }
+
+      setCurrentUser(user);
+      btn.classList.remove('loading');
+      showPage('page-rep-dashboard');
+      renderDashboard();
+    }, 1000);
+  }
+
+  function handleRegister() {
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
+    const company = document.getElementById('regCompany').value.trim();
+    const password = document.getElementById('regPassword').value;
+    const btn = document.getElementById('regSubmitBtn');
+
+    document.getElementById('regEmailError').classList.remove('show');
+    document.getElementById('regPhoneError').classList.remove('show');
+    document.getElementById('regPasswordError').classList.remove('show');
+
+    if (!name || !email || !phone || !company || !password) {
+      alert(currentLang === 'ar' ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill all required fields');
+      return;
+    }
+
+    if (!isValidPhone(phone)) {
+      document.getElementById('regPhoneError').classList.add('show');
+      document.getElementById('regPhone').classList.add('input-error');
+      return;
+    }
+
+    if (password.length < 6) {
+      document.getElementById('regPasswordError').classList.add('show');
+      return;
+    }
+
+    if (findUser(email)) {
+      document.getElementById('regEmailError').classList.add('show');
+      return;
+    }
+
+    btn.classList.add('loading');
+
+    setTimeout(() => {
+      const user = {
+        name, email, phone, company, password,
+        createdAt: new Date().toISOString(),
+        id: 'user_' + Date.now()
+      };
+      saveUser(user);
+      setCurrentUser(user);
+      btn.classList.remove('loading');
+
+      // Show activation notice (simulated)
+      alert(currentLang === 'ar'
+        ? '✅ تم إنشاء الحساب بنجاح!\n\n(ملاحظة: في النسخة الحقيقية، سيتم إرسال رابط تفعيل على بريدك الإلكتروني)'
+        : '✅ Account created successfully!\n\n(Note: In production, an activation link would be sent to your email)');
+
+      showPage('page-rep-dashboard');
+      renderDashboard();
+    }, 1500);
+  }
+
+  function logoutRep() {
+    setCurrentUser(null);
+    resetApp();
+  }
+
+  // ==================== DASHBOARD ====================
+  function renderDashboard() {
+    const user = getCurrentUser();
+    if (!user) return;
+
+    document.getElementById('displayRepNameLogged').textContent = user.name;
+    document.getElementById('displayRepCompanyLogged').textContent = user.company;
+    document.getElementById('displayRepPhoneLogged').textContent = user.phone;
+    document.getElementById('hiddenRepNameLogged').value = user.name;
+    document.getElementById('hiddenRepCompanyLogged').value = user.company;
+    document.getElementById('hiddenRepPhoneLogged').value = user.phone;
+
+    const customers = getRepCustomers(user.email);
+    const tbody = document.getElementById('customersTableBody');
+    const emptyState = document.getElementById('emptyState');
+    const table = document.querySelector('#customersList table');
+
+    // Stats
+    const today = new Date().toDateString();
+    const thisMonth = new Date().getMonth();
+    document.getElementById('statTotal').textContent = customers.length;
+    document.getElementById('statToday').textContent = customers.filter(c =>
+      new Date(c.createdAt).toDateString() === today
+    ).length;
+    document.getElementById('statMonth').textContent = customers.filter(c =>
+      new Date(c.createdAt).getMonth() === thisMonth
+    ).length;
+
+    if (customers.length === 0) {
+      table.classList.add('hidden');
+      emptyState.classList.remove('hidden');
+      return;
+    }
+
+    table.classList.remove('hidden');
+    emptyState.classList.add('hidden');
+
+    tbody.innerHTML = customers.map(c => `
+      <tr>
+        <td><span class="customer-code">${c.code}</span></td>
+        <td>${c.name}</td>
+        <td>${c.passport}</td>
+        <td>${c.destination}</td>
+        <td>${new Date(c.createdAt).toLocaleDateString('ar-EG')}</td>
+        <td>
+          <div class="action-btns">
+            <button class="action-btn view" onclick="viewCustomer('${c.code}')">👁️</button>
+            <button class="action-btn delete" onclick="deleteCustomer('${c.code}')">🗑️</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function viewCustomer(code) {
+    const user = getCurrentUser();
+    const customers = getRepCustomers(user.email);
+    const customer = customers.find(c => c.code === code);
+    if (!customer) return;
+
+    const content = document.getElementById('customerDetailContent');
+    content.innerHTML = `
+      <div class="form-group">
+        <label>الكود</label>
+        <input type="text" value="${customer.code}" readonly style="background:rgba(201,162,39,0.05);">
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label>الاسم</label><input type="text" value="${customer.name}" readonly></div>
+        <div class="form-group"><label>رقم الهاتف</label><input type="text" value="${customer.phone}" readonly></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label>الجنسية</label><input type="text" value="${customer.nationality || '-'}" readonly></div>
+        <div class="form-group"><label>رقم الجواز</label><input type="text" value="${customer.passport}" readonly></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label>الوجهة</label><input type="text" value="${customer.destination}" readonly></div>
+        <div class="form-group"><label>تاريخ السفر</label><input type="text" value="${customer.travelDate || '-'}" readonly></div>
+      </div>
+      <div class="form-group">
+        <label>ملاحظات</label>
+        <textarea readonly>${customer.notes || 'لا يوجد'}</textarea>
+      </div>
+      <div class="form-group">
+        <label>تاريخ التسجيل</label>
+        <input type="text" value="${new Date(customer.createdAt).toLocaleString('ar-EG')}" readonly>
+      </div>
+    `;
+    showPage('page-customer-detail');
+  }
+
+  // ==================== PAGE NAVIGATION ====================
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    pageHistory.push(pageId);
+    window.scrollTo(0, 0);
+  }
+
+  function goBack() {
+    if (pageHistory.length > 1) {
+      pageHistory.pop();
+      const prev = pageHistory[pageHistory.length - 1];
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(prev).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function selectRole(role) {
+    selectedRole = role;
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+    event.currentTarget.classList.add('selected');
+    setTimeout(() => {
+      document.getElementById('disclaimer-modal').classList.add('show');
+    }, 300);
+  }
+
+  function closeDisclaimer() {
+    document.getElementById('disclaimer-modal').classList.remove('show');
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+    selectedRole = null;
+  }
+
+  function acceptDisclaimer() {
+    document.getElementById('disclaimer-modal').classList.remove('show');
+    if (selectedRole === 'client') {
+      showPage('page-client-direct');
+    } else {
+      showPage('page-rep-reg');
+    }
+  }
+
+  function submitRepReg() {
+    const name = document.getElementById('repName').value.trim();
+    const phone = document.getElementById('repPhone').value.trim();
+    const company = document.getElementById('repCompanyName').value.trim();
+
+    if (!name || !phone || !company) {
+      alert(currentLang === 'ar' ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill all required fields');
+      return;
+    }
+
+    if (!isValidPhone(phone)) {
+      document.getElementById('repPhoneError').classList.add('show');
+      document.getElementById('repPhone').classList.add('input-error');
+      return;
+    }
+
+    repData = { name, phone, company };
+    document.getElementById('displayRepName').textContent = name;
+    document.getElementById('displayRepCompany').textContent = company;
+    document.getElementById('displayRepPhone').textContent = phone;
+
+    document.getElementById('hiddenRepName').value = name;
+    document.getElementById('hiddenRepCompany').value = company;
+    document.getElementById('hiddenRepPhone').value = phone;
+
+    showPage('page-add-customer-rep');
+  }
+
+  // ==================== FILE HANDLING ====================
+  function handleFileSelect(input, type) {
+    const newFiles = Array.from(input.files);
+    newFiles.forEach(file => {
+      if (file.size > 10 * 1024 * 1024) {
+        alert(currentLang === 'ar' ? 'الملف كبير جداً. الحد الأقصى 10MB' : 'File too large. Max 10MB');
+        return;
+      }
+      if (!files[type]) files[type] = [];
+      files[type].push({ file, id: Date.now() + Math.random(), customName: file.name });
+    });
+    renderFileList(type);
+    input.value = '';
+  }
+
+  function renderFileList(type) {
+    const listEl = document.getElementById(type + 'List') || document.getElementById(type + 'ListLogged');
+    if (!listEl || !files[type] || files[type].length === 0) { if(listEl) listEl.innerHTML = ''; return; }
+    listEl.innerHTML = files[type].map((item, i) => `
+      <div class="file-item">
+        <div class="file-info"><span>📄</span>
+          <input type="text" class="file-name-input" value="${item.customName}" onchange="updateFileName('${type}',${i},this.value)">
+        </div>
+        <span class="file-size">${formatSize(item.file.size)}</span>
+        <button type="button" class="remove-btn" onclick="removeFile('${type}',${i})">×</button>
+      </div>`).join('');
+  }
+
+  function updateFileName(type, i, name) { if(files[type]) files[type][i].customName = name; }
+  function removeFile(type, i) { if(files[type]) { files[type].splice(i,1); renderFileList(type); } }
+  function formatSize(b) { if(b===0)return'0 B'; const k=1024,s=['B','KB','MB','GB'],i=Math.floor(Math.log(b)/Math.log(k)); return parseFloat((b/Math.pow(k,i)).toFixed(1))+' '+s[i]; }
+
+  // ==================== FORM SUBMISSIONS ====================
+  document.getElementById('customerFormRep').addEventListener('submit', function(e) {
+    const btn = document.getElementById('submitCustomerBtn');
+    const passportNum = document.getElementById('custPassportNum').value.trim().toUpperCase();
+    const phone = document.getElementById('custPhone').value.trim();
+
+    // Check duplicates
+    if (isPassportUsed(passportNum)) {
+      e.preventDefault();
+      document.getElementById('passportDupError').classList.add('show');
+      document.getElementById('custPassportNum').classList.add('input-error');
+      return;
+    }
+    if (isPhoneUsed(phone)) {
+      e.preventDefault();
+      alert(currentLang === 'ar' ? 'رقم الهاتف مسجل بالفعل' : 'Phone number already registered');
+      return;
+    }
+
+    if (!files.passport || files.passport.length === 0) {
+      e.preventDefault();
+      alert(currentLang === 'ar' ? 'يرجى رفع صورة جواز السفر' : 'Please upload passport photo');
+      return;
+    }
+
+    // Mark as used
+    markPassportUsed(passportNum);
+    markPhoneUsed(phone);
+
+    btn.classList.add('loading');
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      showPage('page-success');
+    }, 2000);
+  });
+
+  document.getElementById('clientFormDirect').addEventListener('submit', function(e) {
+    const btn = document.getElementById('submitClientBtn');
+    const passportNum = document.getElementById('clientPassportNum').value.trim().toUpperCase();
+    const phone = document.getElementById('clientPhone').value.trim();
+
+    // Check duplicates
+    if (isPassportUsed(passportNum)) {
+      e.preventDefault();
+      document.getElementById('clientPassportDupError').classList.add('show');
+      document.getElementById('clientPassportNum').classList.add('input-error');
+      return;
+    }
+    if (isPhoneUsed(phone)) {
+      e.preventDefault();
+      alert(currentLang === 'ar' ? 'رقم الهاتف مسجل بالفعل' : 'Phone number already registered');
+      return;
+    }
+
+    if (!files.clientPassport || files.clientPassport.length === 0) {
+      e.preventDefault();
+      alert(currentLang === 'ar' ? 'يرجى رفع صورة جواز السفر' : 'Please upload passport photo');
+      return;
+    }
+
+    // Mark as used
+    markPassportUsed(passportNum);
+    markPhoneUsed(phone);
+
+    btn.classList.add('loading');
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      showPage('page-success');
+    }, 2000);
+  });
+
+  // Logged rep customer form
+  document.getElementById('customerFormRepLogged').addEventListener('submit', function(e) {
+    const btn = document.getElementById('submitCustomerBtnLogged');
+    const form = e.target;
+    const passportNum = form.querySelector('[name="passport_number"]').value.trim().toUpperCase();
+    const phone = form.querySelector('[name="customer_phone"]').value.trim();
+    const name = form.querySelector('[name="customer_name"]').value.trim();
+    const nationality = form.querySelector('[name="nationality"]').value.trim();
+    const destination = form.querySelector('[name="destination"]').value.trim();
+    const travelDate = form.querySelector('[name="travel_date"]').value;
+
+    // Check duplicates
+    if (isPassportUsed(passportNum)) {
+      e.preventDefault();
+      document.getElementById('loggedPassportDupError').classList.add('show');
+      form.querySelector('[name="passport_number"]').classList.add('input-error');
+      return;
+    }
+    if (isPhoneUsed(phone)) {
+      e.preventDefault();
+      alert(currentLang === 'ar' ? 'رقم الهاتف مسجل بالفعل' : 'Phone number already registered');
+      return;
+    }
+
+    if (!files.passport || files.passport.length === 0) {
+      e.preventDefault();
+      alert(currentLang === 'ar' ? 'يرجى رفع صورة جواز السفر' : 'Please upload passport photo');
+      return;
+    }
+
+    // Mark as used
+    markPassportUsed(passportNum);
+    markPhoneUsed(phone);
+
+    // Save to rep's customer list
+    const user = getCurrentUser();
+    if (user) {
+      const customer = {
+        code: generateCustomerCode(),
+        name: name.toUpperCase(),
+        phone: phone,
+        passport: passportNum,
+        nationality: nationality.toUpperCase(),
+        destination: destination.toUpperCase(),
+        travelDate: travelDate,
+        notes: form.querySelector('[name="notes"]').value,
+        repEmail: user.email,
+        createdAt: new Date().toISOString()
+      };
+      saveCustomer(customer);
+    }
+
+    btn.classList.add('loading');
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      showPage('page-rep-dashboard');
+      renderDashboard();
+      // Reset form
+      form.reset();
+      files = { passport: [], photo: [], docs: [], clientPassport: [], clientDocs: [] };
+      document.querySelectorAll('.file-list').forEach(l => l.innerHTML = '');
+    }, 2000);
+  });
+
+  function resetApp() {
+    files = { passport: [], photo: [], docs: [], clientPassport: [], clientDocs: [] };
+    repData = {};
+    selectedRole = null;
+    pageHistory = ['page-role'];
+    document.querySelectorAll('input, textarea').forEach(i => {
+      if (i.type !== 'hidden') i.value = '';
+    });
+    document.querySelectorAll('.file-list').forEach(l => l.innerHTML = '');
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show'));
+    document.querySelectorAll('.input-error').forEach(i => i.classList.remove('input-error'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-role').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  // ==================== TRANSLATIONS ====================
   const translations = {
     ar: {
       tagline: '✨ حيث تصبح الرحلات ذكريات ذهبية ✨',
@@ -978,7 +2599,19 @@ html_code = '''<!DOCTYPE html>
       submitClientBtn: '🚀 إرسال الطلب',
       successTitle: 'تم الإرسال بنجاح!', successText: 'سنتواصل معك في أقرب وقت ممكن.',
       newEntryBtn: '🔄 إدخال جديد',
-      repInfoTitle: '🤝 المندوب / الشركة'
+      repInfoTitle: '🤝 المندوب / الشركة',
+      exploreBtn: '🔍 استكشاف',
+      themeText: 'وضع فاتح',
+      repLoginPrompt: 'لديك حساب مندوب/شركة؟ سجل دخولك هنا',
+      repLoginBtn: '🔐 تسجيل الدخول / إنشاء حساب',
+      authTitle: 'تسجيل الدخول / إنشاء حساب',
+      tabLogin: 'تسجيل الدخول', tabRegister: 'إنشاء حساب',
+      loginSubmit: '🔓 تسجيل الدخول', regSubmit: '✨ إنشاء حساب',
+      hotelsTitle: 'فنادق مصر', hotelsBadge: '⭐ أفضل الفنادق في القاهرة والإسكندرية والغردقة وشرم الشيخ',
+      carsTitle: 'أسطول السيارات', carsBadge: '🚙 أكبر أسطول سيارات في مصر - جميع الموديلات متاحة',
+      schengenTitle: 'تأشيرات الشنغن', schengenBadge: '🌍 27 دولة أوروبية - تأشيرة واحدة تفتح لك القارة',
+      schengenContactTitle: '📞 للاستفسار والحجز',
+      dashboardTitle: '📊 لوحة تحكم المندوب'
     },
     en: {
       tagline: '✨ Where Journeys Become Golden Memories ✨',
@@ -1013,17 +2646,30 @@ html_code = '''<!DOCTYPE html>
       submitClientBtn: '🚀 Submit Request',
       successTitle: 'Submitted Successfully!', successText: 'We will contact you as soon as possible.',
       newEntryBtn: '🔄 New Entry',
-      repInfoTitle: '🤝 Representative / Company'
+      repInfoTitle: '🤝 Representative / Company',
+      exploreBtn: '🔍 Explore',
+      themeText: 'Light Mode',
+      repLoginPrompt: 'Have a rep/company account? Login here',
+      repLoginBtn: '🔐 Login / Register',
+      authTitle: 'Login / Register',
+      tabLogin: 'Login', tabRegister: 'Register',
+      loginSubmit: '🔓 Login', regSubmit: '✨ Create Account',
+      hotelsTitle: 'Egypt Hotels', hotelsBadge: '⭐ Best hotels in Cairo, Alexandria, Hurghada & Sharm',
+      carsTitle: 'Car Fleet', carsBadge: '🚙 Largest car fleet in Egypt - all models available',
+      schengenTitle: 'Schengen Visas', schengenBadge: '🌍 27 European countries - one visa opens the continent',
+      schengenContactTitle: '📞 For inquiries & booking',
+      dashboardTitle: '📊 Rep Dashboard'
     }
   };
-  
+
   function setLang(lang) {
     currentLang = lang;
     document.body.className = lang === 'ar' ? 'rtl' : 'ltr';
+    if (document.body.classList.contains('light-mode')) document.body.classList.add('light-mode');
     document.getElementById('btnAr').classList.toggle('active', lang === 'ar');
     document.getElementById('btnEn').classList.toggle('active', lang === 'en');
     const tr = translations[lang];
-    
+
     document.getElementById('tagline').textContent = tr.tagline;
     document.getElementById('whoAreYou').textContent = tr.whoAreYou;
     document.getElementById('roleRep').textContent = tr.roleRep;
@@ -1075,157 +2721,38 @@ html_code = '''<!DOCTYPE html>
     document.getElementById('successText').textContent = tr.successText;
     document.getElementById('newEntryBtn').textContent = tr.newEntryBtn;
     document.querySelector('#repInfoDisplay h4').textContent = tr.repInfoTitle;
+
+    document.getElementById('exploreBtn').textContent = tr.exploreBtn;
+    const isLight = document.body.classList.contains('light-mode');
+    document.getElementById('themeText').textContent = isLight
+      ? (lang === 'ar' ? 'وضع داكن' : 'Dark Mode')
+      : (lang === 'ar' ? 'وضع فاتح' : 'Light Mode');
+    document.getElementById('repLoginPrompt').textContent = tr.repLoginPrompt;
+    document.getElementById('repLoginBtn').textContent = tr.repLoginBtn;
+    document.getElementById('authTitle').textContent = tr.authTitle;
+    document.getElementById('tabLogin').textContent = tr.tabLogin;
+    document.getElementById('tabRegister').textContent = tr.tabRegister;
+    document.getElementById('loginSubmitBtn').querySelector('span:last-child').textContent = tr.loginSubmit;
+    document.getElementById('regSubmitBtn').querySelector('span:last-child').textContent = tr.regSubmit;
+    document.getElementById('hotelsTitle').textContent = tr.hotelsTitle;
+    document.getElementById('hotelsBadge').textContent = tr.hotelsBadge;
+    document.getElementById('carsTitle').textContent = tr.carsTitle;
+    document.getElementById('carsBadge').textContent = tr.carsBadge;
+    document.getElementById('schengenTitle').textContent = tr.schengenTitle;
+    document.getElementById('schengenBadge').textContent = tr.schengenBadge;
+    document.getElementById('schengenContactTitle').textContent = tr.schengenContactTitle;
+    document.getElementById('dashboardTitle').textContent = tr.dashboardTitle;
   }
-  
-  function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-    pageHistory.push(pageId);
-    window.scrollTo(0, 0);
-  }
-  
-  function goBack() {
-    if (pageHistory.length > 1) {
-      pageHistory.pop();
-      const prev = pageHistory[pageHistory.length - 1];
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(prev).classList.add('active');
-      window.scrollTo(0, 0);
-    }
-  }
-  
-  function selectRole(role) {
-    selectedRole = role;
-    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
-    event.currentTarget.classList.add('selected');
-    setTimeout(() => {
-      document.getElementById('disclaimer-modal').classList.add('show');
-    }, 300);
-  }
-  
-  function closeDisclaimer() {
-    document.getElementById('disclaimer-modal').classList.remove('show');
-    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
-    selectedRole = null;
-  }
-  
-  function acceptDisclaimer() {
-    document.getElementById('disclaimer-modal').classList.remove('show');
-    if (selectedRole === 'client') {
-      showPage('page-client-direct');
-    } else {
-      showPage('page-rep-reg');
-    }
-  }
-  
-  function submitRepReg() {
-    const name = document.getElementById('repName').value.trim();
-    const phone = document.getElementById('repPhone').value.trim();
-    const company = document.getElementById('repCompanyName').value.trim();
-    
-    if (!name || !phone || !company) {
-      alert(currentLang === 'ar' ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill all required fields');
-      return;
-    }
-    
-    repData = { name, phone, company };
-    document.getElementById('displayRepName').textContent = name;
-    document.getElementById('displayRepCompany').textContent = company;
-    document.getElementById('displayRepPhone').textContent = phone;
-    
-    // Fill hidden fields for Formspree
-    document.getElementById('hiddenRepName').value = name;
-    document.getElementById('hiddenRepCompany').value = company;
-    document.getElementById('hiddenRepPhone').value = phone;
-    
-    showPage('page-add-customer-rep');
-  }
-  
-  // File handling
-  function handleFileSelect(input, type) {
-    const newFiles = Array.from(input.files);
-    newFiles.forEach(file => {
-      if (file.size > 10 * 1024 * 1024) {
-        alert(currentLang === 'ar' ? 'الملف كبير جداً. الحد الأقصى 10MB' : 'File too large. Max 10MB');
-        return;
-      }
-      if (!files[type]) files[type] = [];
-      files[type].push({ file, id: Date.now() + Math.random(), customName: file.name });
-    });
-    renderFileList(type);
-    input.value = '';
-  }
-  
-  function renderFileList(type) {
-    const listEl = document.getElementById(type + 'List');
-    if (!listEl || !files[type] || files[type].length === 0) { if(listEl) listEl.innerHTML = ''; return; }
-    listEl.innerHTML = files[type].map((item, i) => `
-      <div class="file-item">
-        <div class="file-info"><span>📄</span>
-          <input type="text" class="file-name-input" value="${item.customName}" onchange="updateFileName('${type}',${i},this.value)">
-        </div>
-        <span class="file-size">${formatSize(item.file.size)}</span>
-        <button type="button" class="remove-btn" onclick="removeFile('${type}',${i})">×</button>
-      </div>`).join('');
-  }
-  
-  function updateFileName(type, i, name) { if(files[type]) files[type][i].customName = name; }
-  function removeFile(type, i) { if(files[type]) { files[type].splice(i,1); renderFileList(type); } }
-  function formatSize(b) { if(b===0)return'0 B'; const k=1024,s=['B','KB','MB','GB'],i=Math.floor(Math.log(b)/Math.log(k)); return parseFloat((b/Math.pow(k,i)).toFixed(1))+' '+s[i]; }
-  
-  // Handle form submissions with Formspree
-  document.getElementById('customerFormRep').addEventListener('submit', function(e) {
-    const btn = document.getElementById('submitCustomerBtn');
-    btn.classList.add('loading');
-    
-    if (!files.passport || files.passport.length === 0) {
-      e.preventDefault();
-      alert(currentLang === 'ar' ? 'يرجى رفع صورة جواز السفر' : 'Please upload passport photo');
-      btn.classList.remove('loading');
-      return;
-    }
-    
-    // Form will submit normally to Formspree
-    // Show success page after a short delay
-    setTimeout(() => {
-      btn.classList.remove('loading');
-      showPage('page-success');
-    }, 2000);
-  });
-  
-  document.getElementById('clientFormDirect').addEventListener('submit', function(e) {
-    const btn = document.getElementById('submitClientBtn');
-    btn.classList.add('loading');
-    
-    if (!files.clientPassport || files.clientPassport.length === 0) {
-      e.preventDefault();
-      alert(currentLang === 'ar' ? 'يرجى رفع صورة جواز السفر' : 'Please upload passport photo');
-      btn.classList.remove('loading');
-      return;
-    }
-    
-    setTimeout(() => {
-      btn.classList.remove('loading');
-      showPage('page-success');
-    }, 2000);
-  });
-  
-  function resetApp() {
-    files = { passport: [], photo: [], docs: [], clientPassport: [], clientDocs: [] };
-    repData = {};
-    selectedRole = null;
-    pageHistory = ['page-role'];
-    document.querySelectorAll('input, textarea').forEach(i => i.value = '');
-    document.querySelectorAll('.file-list').forEach(l => l.innerHTML = '');
-    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-role').classList.add('active');
-    window.scrollTo(0, 0);
-  }
-  
-  // Init
+
+  // ==================== INIT ====================
   setLang('ar');
+
+  // Check if already logged in
+  const savedUser = getCurrentUser();
+  if (savedUser) {
+    currentUser = savedUser;
+  }
 </script>
 
 </body>
-</html>'''
+</html>
