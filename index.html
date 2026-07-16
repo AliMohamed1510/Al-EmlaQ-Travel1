@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+
+# Create the complete HTML with Formspree ID integrated
+html_code = '''<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -25,9 +27,9 @@
     --shadow: 0 8px 32px rgba(201, 162, 39, 0.12);
     --shadow-lg: 0 16px 48px rgba(201, 162, 39, 0.18);
   }
-
+  
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
+  
   body {
     font-family: 'Cairo', 'Segoe UI', sans-serif;
     background: linear-gradient(180deg, #0a0a1a 0%, #0d0d2a 30%, #12122a 70%, #0a0a1a 100%);
@@ -36,7 +38,7 @@
     padding: 20px;
     overflow-x: hidden;
   }
-
+  
   .particles {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -44,7 +46,7 @@
     z-index: 0;
     overflow: hidden;
   }
-
+  
   .particle {
     position: absolute;
     width: 3px; height: 3px;
@@ -53,21 +55,21 @@
     opacity: 0.2;
     animation: float 20s infinite linear;
   }
-
+  
   @keyframes float {
     0% { transform: translateY(100vh) translateX(0); opacity: 0; }
     10% { opacity: 0.3; }
     90% { opacity: 0.3; }
     100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
   }
-
+  
   .container {
     max-width: 800px;
     margin: 0 auto;
     position: relative;
     z-index: 1;
   }
-
+  
   .header {
     text-align: center;
     padding: 40px 20px;
@@ -79,7 +81,7 @@
     position: relative;
     overflow: hidden;
   }
-
+  
   .header::before {
     content: '';
     position: absolute;
@@ -88,12 +90,12 @@
     background: linear-gradient(45deg, transparent 40%, rgba(201, 162, 39, 0.08) 50%, transparent 60%);
     animation: shimmer 8s infinite linear;
   }
-
+  
   @keyframes shimmer {
     0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
     100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
   }
-
+  
   .logo {
     font-family: 'Playfair Display', serif;
     font-size: 2.6rem;
@@ -106,14 +108,14 @@
     text-shadow: 0 0 50px rgba(201, 162, 39, 0.2);
     letter-spacing: 1px;
   }
-
+  
   .tagline {
     font-size: 1rem;
     color: var(--silver);
     opacity: 0.85;
     font-weight: 400;
   }
-
+  
   .card {
     background: var(--bg-card);
     border-radius: 20px;
@@ -125,12 +127,12 @@
     overflow: hidden;
     transition: all 0.4s ease;
   }
-
+  
   .card:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 40px rgba(201, 162, 39, 0.15);
   }
-
+  
   .card::after {
     content: '';
     position: absolute;
@@ -140,12 +142,12 @@
     background-size: 400% 100%;
     animation: gradientSlide 5s linear infinite;
   }
-
+  
   @keyframes gradientSlide {
     0% { background-position: 0% 50%; }
     100% { background-position: 400% 50%; }
   }
-
+  
   .section-title {
     font-size: 1.25rem;
     font-weight: 800;
@@ -160,9 +162,9 @@
     align-items: center;
     gap: 12px;
   }
-
+  
   .form-group { margin-bottom: 20px; }
-
+  
   label {
     display: block;
     font-weight: 700;
@@ -170,9 +172,9 @@
     color: var(--silver-light);
     font-size: 0.95rem;
   }
-
+  
   .required::after { content: ' *'; color: var(--gold); }
-
+  
   input, select, textarea {
     width: 100%;
     padding: 16px 18px;
@@ -184,25 +186,25 @@
     color: var(--text);
     font-family: 'Cairo', sans-serif;
   }
-
+  
   input::placeholder, textarea::placeholder { color: var(--text-dim); opacity: 0.5; }
-
+  
   input:focus, select:focus, textarea:focus {
     outline: none;
     border-color: var(--gold);
     background: rgba(15, 52, 96, 0.6);
     box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.12), 0 0 25px rgba(201, 162, 39, 0.08);
   }
-
+  
   textarea { resize: vertical; min-height: 100px; }
-
+  
   .role-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     margin-bottom: 8px;
   }
-
+  
   .role-card {
     background: linear-gradient(135deg, rgba(201, 162, 39, 0.05) 0%, rgba(192, 192, 192, 0.03) 100%);
     border: 2px solid var(--border);
@@ -214,41 +216,41 @@
     position: relative;
     overflow: hidden;
   }
-
+  
   .role-card:hover {
     border-color: var(--gold);
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(201, 162, 39, 0.15);
   }
-
+  
   .role-card.selected {
     border-color: var(--gold);
     background: linear-gradient(135deg, rgba(201, 162, 39, 0.15) 0%, rgba(205, 127, 50, 0.1) 100%);
     box-shadow: 0 0 30px rgba(201, 162, 39, 0.2);
   }
-
+  
   .role-card .role-icon {
     font-size: 3rem;
     margin-bottom: 12px;
     display: block;
     transition: transform 0.3s ease;
   }
-
+  
   .role-card:hover .role-icon { transform: scale(1.1); }
-
+  
   .role-card .role-title {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--gold-light);
     margin-bottom: 6px;
   }
-
+  
   .role-card .role-desc {
     font-size: 0.8rem;
     color: var(--text-dim);
     line-height: 1.4;
   }
-
+  
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -261,9 +263,9 @@
     padding: 20px;
     animation: fadeIn 0.3s ease;
   }
-
+  
   .modal-overlay.show { display: flex; }
-
+  
   .modal {
     background: var(--bg-card);
     border-radius: 24px;
@@ -275,18 +277,18 @@
     animation: slideUp 0.4s ease;
     position: relative;
   }
-
+  
   @keyframes slideUp {
     from { opacity: 0; transform: translateY(40px) scale(0.95); }
     to { opacity: 1; transform: translateY(0) scale(1); }
   }
-
+  
   .modal-icon {
     font-size: 3.5rem;
     text-align: center;
     margin-bottom: 16px;
   }
-
+  
   .modal h3 {
     font-size: 1.4rem;
     text-align: center;
@@ -296,7 +298,7 @@
     background-clip: text;
     margin-bottom: 16px;
   }
-
+  
   .modal p {
     color: var(--text-dim);
     line-height: 1.8;
@@ -304,14 +306,14 @@
     margin-bottom: 24px;
     font-size: 0.95rem;
   }
-
+  
   .modal strong { color: var(--gold-light); }
-
+  
   .modal-actions {
     display: flex;
     gap: 12px;
   }
-
+  
   .btn {
     flex: 1;
     padding: 14px;
@@ -323,29 +325,29 @@
     transition: all 0.3s ease;
     font-family: 'Cairo', sans-serif;
   }
-
+  
   .btn-primary {
     background: linear-gradient(135deg, var(--gold) 0%, var(--bronze) 100%);
     color: var(--bg-dark);
     box-shadow: 0 4px 20px rgba(201, 162, 39, 0.3);
   }
-
+  
   .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 30px rgba(201, 162, 39, 0.4);
   }
-
+  
   .btn-secondary {
     background: transparent;
     color: var(--text-dim);
     border: 2px solid var(--border);
   }
-
+  
   .btn-secondary:hover {
     border-color: var(--gold);
     color: var(--gold);
   }
-
+  
   .upload-zone {
     border: 2px dashed var(--border);
     border-radius: 18px;
@@ -357,27 +359,27 @@
     position: relative;
     overflow: hidden;
   }
-
+  
   .upload-zone:hover {
     border-color: var(--gold);
     background: rgba(201, 162, 39, 0.05);
     box-shadow: 0 0 30px rgba(201, 162, 39, 0.1);
   }
-
+  
   .upload-zone .icon {
     font-size: 3rem;
     margin-bottom: 12px;
     display: block;
     filter: drop-shadow(0 0 8px rgba(201, 162, 39, 0.3));
   }
-
+  
   .upload-zone p { color: var(--silver); font-weight: 600; }
   .upload-zone .hint { font-size: 0.85rem; color: var(--text-dim); margin-top: 8px; }
-
+  
   input[type="file"] { display: none; }
-
+  
   .file-list { margin-top: 16px; }
-
+  
   .file-item {
     display: flex;
     align-items: center;
@@ -389,12 +391,12 @@
     border: 1px solid rgba(201, 162, 39, 0.15);
     animation: slideIn 0.4s ease;
   }
-
+  
   @keyframes slideIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
+  
   .file-item .file-info { display: flex; align-items: center; gap: 10px; flex: 1; }
   .file-item .file-name-input {
     border: none; background: transparent; font-size: 0.9rem;
@@ -410,7 +412,7 @@
     transition: all 0.3s ease;
   }
   .file-item .remove-btn:hover { transform: scale(1.1) rotate(90deg); }
-
+  
   .submit-btn {
     width: 100%;
     padding: 18px;
@@ -427,14 +429,14 @@
     font-family: 'Cairo', sans-serif;
     animation: gradientShift 3s ease infinite;
   }
-
+  
   @keyframes gradientShift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
   }
-
+  
   .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(201, 162, 39, 0.5); }
-
+  
   .success-message {
     display: none;
     text-align: center;
@@ -446,7 +448,7 @@
   @keyframes bounceIn { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
   .success-message h2 { font-size: 1.8rem; background: linear-gradient(135deg, var(--gold) 0%, var(--silver) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 10px; }
   .success-message p { color: var(--silver); font-size: 1.05rem; }
-
+  
   .contact-bar {
     display: flex;
     justify-content: center;
@@ -458,7 +460,7 @@
     border-radius: 16px;
     border: 1px solid rgba(201, 162, 39, 0.15);
   }
-
+  
   .contact-item {
     display: flex;
     align-items: center;
@@ -474,16 +476,16 @@
     transition: all 0.3s ease;
     cursor: pointer;
   }
-
+  
   .contact-item:hover {
     background: rgba(201, 162, 39, 0.15);
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(201, 162, 39, 0.15);
   }
-
+  
   .hidden { display: none !important; }
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
+  
   @media (max-width: 600px) {
     .form-grid { grid-template-columns: 1fr; }
     .role-grid { grid-template-columns: 1fr; }
@@ -492,10 +494,10 @@
     .modal { padding: 24px; }
     .contact-bar { flex-direction: column; align-items: center; }
   }
-
+  
   .page { display: none; animation: fadeIn 0.5s ease; }
   .page.active { display: block; }
-
+  
   .back-btn {
     display: inline-flex;
     align-items: center;
@@ -511,12 +513,12 @@
     font-family: 'Cairo', sans-serif;
     margin-bottom: 16px;
   }
-
+  
   .back-btn:hover {
     background: rgba(201, 162, 39, 0.1);
     transform: translateX(-3px);
   }
-
+  
   .rep-info-box {
     background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(192, 192, 192, 0.05) 100%);
     border: 1px solid rgba(201, 162, 39, 0.2);
@@ -524,18 +526,18 @@
     padding: 16px 20px;
     margin-bottom: 20px;
   }
-
+  
   .rep-info-box h4 { color: var(--gold); font-size: 0.95rem; margin-bottom: 8px; }
   .rep-info-box p { color: var(--silver); font-size: 0.9rem; margin: 4px 0; }
   .rep-info-box strong { color: var(--gold-light); }
-
+  
   .lang-switch {
     display: flex;
     justify-content: center;
     gap: 12px;
     margin-bottom: 20px;
   }
-
+  
   .lang-btn {
     padding: 10px 28px;
     border: 2px solid var(--gold);
@@ -548,16 +550,16 @@
     font-size: 0.95rem;
     font-family: 'Cairo', sans-serif;
   }
-
+  
   .lang-btn.active {
     background: linear-gradient(135deg, var(--gold) 0%, var(--bronze) 100%);
     color: var(--bg-dark);
     border-color: var(--gold);
     box-shadow: 0 0 20px rgba(201, 162, 39, 0.4);
   }
-
+  
   .lang-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(201, 162, 39, 0.2); }
-
+  
   .spinner {
     display: none;
     width: 20px; height: 20px;
@@ -567,25 +569,11 @@
     animation: spin 1s linear infinite;
     margin-right: 8px;
   }
-
+  
   @keyframes spin { to { transform: rotate(360deg); } }
-
+  
   .submit-btn.loading .spinner { display: inline-block; }
   .submit-btn.loading { pointer-events: none; opacity: 0.7; }
-
-  .formspree-note {
-    background: rgba(201, 162, 39, 0.05);
-    border: 1px solid rgba(201, 162, 39, 0.15);
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 20px;
-    text-align: center;
-    color: var(--text-dim);
-    font-size: 0.9rem;
-  }
-
-  .formspree-note a { color: var(--gold); text-decoration: none; }
-  .formspree-note a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -598,13 +586,13 @@
     <div class="logo">Al EmlaQ Travel</div>
     <p class="tagline" id="tagline">✨ حيث تصبح الرحلات ذكريات ذهبية ✨</p>
   </div>
-
+  
   <!-- Language Switch -->
   <div class="lang-switch">
     <button class="lang-btn active" onclick="setLang('ar')" id="btnAr">العربية</button>
     <button class="lang-btn" onclick="setLang('en')" id="btnEn">English</button>
   </div>
-
+  
   <!-- PAGE 1: Who Are You -->
   <div class="page active" id="page-role">
     <div class="card">
@@ -612,20 +600,20 @@
         <span>🎯</span>
         <span id="whoAreYou">انت مين؟</span>
       </div>
-
+      
       <div class="role-grid">
         <div class="role-card" onclick="selectRole('representative')">
           <span class="role-icon">🤝</span>
           <div class="role-title" id="roleRep">مندوب</div>
           <div class="role-desc" id="roleRepDesc">مندوب مبيعات أو وسيط سفر</div>
         </div>
-
+        
         <div class="role-card" onclick="selectRole('company')">
           <span class="role-icon">🏢</span>
           <div class="role-title" id="roleCompany">شركة</div>
           <div class="role-desc" id="roleCompanyDesc">شركة سفر أو وكالة</div>
         </div>
-
+        
         <div class="role-card" onclick="selectRole('client')">
           <span class="role-icon">👤</span>
           <div class="role-title" id="roleClient">عميل</div>
@@ -633,7 +621,7 @@
         </div>
       </div>
     </div>
-
+    
     <!-- Contact Info -->
     <div class="contact-bar">
       <a class="contact-item" href="https://wa.me/201509025388" target="_blank">
@@ -647,7 +635,7 @@
       </a>
     </div>
   </div>
-
+  
   <!-- PAGE 2: Disclaimer Modal -->
   <div class="modal-overlay" id="disclaimer-modal">
     <div class="modal">
@@ -664,63 +652,63 @@
       </div>
     </div>
   </div>
-
+  
   <!-- PAGE 3: Rep/Company Registration -->
   <div class="page" id="page-rep-reg">
     <button class="back-btn" onclick="goBack()">← رجوع</button>
-
+    
     <div class="card">
       <div class="section-title">
         <span>📝</span>
         <span id="repRegTitle">تسجيل المندوب / الشركة</span>
       </div>
-
+      
       <div class="form-group">
         <label for="repName" class="required" id="labelRepName">الاسم الكامل</label>
         <input type="text" id="repName" required>
       </div>
-
+      
       <div class="form-group">
         <label for="repPhone" class="required" id="labelRepPhone">رقم التليفون</label>
         <input type="tel" id="repPhone" required>
       </div>
-
+      
       <div class="form-group">
         <label for="repCompanyName" class="required" id="labelRepCompanyName">اسم الشركة / الاسم التسويقي</label>
         <input type="text" id="repCompanyName" required>
       </div>
-
+      
       <button class="submit-btn" onclick="submitRepReg()" id="repRegSubmit">التالي →</button>
     </div>
   </div>
-
+  
   <!-- PAGE 4: Add Customer (Rep/Company) -->
   <div class="page" id="page-add-customer-rep">
     <button class="back-btn" onclick="goBack()">← رجوع</button>
-
+    
     <div class="rep-info-box" id="repInfoDisplay">
       <h4>🤝 المندوب / الشركة</h4>
       <p><strong>الاسم:</strong> <span id="displayRepName">-</span></p>
       <p><strong>الشركة:</strong> <span id="displayRepCompany">-</span></p>
       <p><strong>التليفون:</strong> <span id="displayRepPhone">-</span></p>
     </div>
-
+    
     <!-- Formspree Form for Rep Customer -->
-    <form id="customerFormRep" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <form id="customerFormRep" action="https://formspree.io/f/xvzezqkn" method="POST">
       <input type="hidden" name="_subject" value="Al EmlaQ - New Customer (Rep)">
       <input type="hidden" name="form_type" value="rep_customer">
-
+      
       <!-- Rep Info (hidden fields) -->
       <input type="hidden" name="rep_name" id="hiddenRepName">
       <input type="hidden" name="rep_company" id="hiddenRepCompany">
       <input type="hidden" name="rep_phone" id="hiddenRepPhone">
-
+      
       <div class="card">
         <div class="section-title">
           <span>🛂</span>
           <span id="customerPassportTitle">بيانات جواز السفر</span>
         </div>
-
+        
         <div class="form-grid">
           <div class="form-group">
             <label for="custFullName" class="required" id="labelCustName">الاسم (كما في الجواز)</label>
@@ -731,7 +719,7 @@
             <input type="tel" id="custPhone" name="customer_phone" required>
           </div>
         </div>
-
+        
         <div class="form-grid">
           <div class="form-group">
             <label for="custNationality" class="required" id="labelCustNationality">الجنسية</label>
@@ -742,7 +730,7 @@
             <input type="text" id="custPassportNum" name="passport_number" required>
           </div>
         </div>
-
+        
         <div class="form-grid">
           <div class="form-group">
             <label for="custIssueDate" class="required" id="labelCustIssueDate">تاريخ الإصدار</label>
@@ -753,28 +741,28 @@
             <input type="date" id="custExpiryDate" name="expiry_date" required>
           </div>
         </div>
-
+        
         <div class="form-group">
           <label for="custBirthDate" class="required" id="labelCustBirthDate">تاريخ الميلاد</label>
           <input type="date" id="custBirthDate" name="birth_date" required>
         </div>
-
+        
         <div class="form-group">
           <label for="custDestination" class="required" id="labelCustDestination">الوجهة</label>
           <input type="text" id="custDestination" name="destination" required>
         </div>
-
+        
         <div class="form-group">
           <label for="custTravelDate" class="required" id="labelCustTravelDate">تاريخ السفر</label>
           <input type="date" id="custTravelDate" name="travel_date" required>
         </div>
-
+        
         <div class="form-group">
           <label for="custNotes" id="labelCustNotes">ملاحظات</label>
           <textarea id="custNotes" name="notes"></textarea>
         </div>
       </div>
-
+      
       <div class="card">
         <div class="section-title">
           <span>📄</span>
@@ -788,7 +776,7 @@
         <input type="file" id="passportInput" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(this, 'passport')">
         <div class="file-list" id="passportList"></div>
       </div>
-
+      
       <div class="card">
         <div class="section-title">
           <span>📸</span>
@@ -802,7 +790,7 @@
         <input type="file" id="photoInput" accept=".jpg,.jpeg,.png" onchange="handleFileSelect(this, 'photo')">
         <div class="file-list" id="photoList"></div>
       </div>
-
+      
       <div class="card">
         <div class="section-title">
           <span>📎</span>
@@ -816,29 +804,29 @@
         <input type="file" id="docsInput" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(this, 'docs')">
         <div class="file-list" id="docsList"></div>
       </div>
-
+      
       <button type="submit" class="submit-btn" id="submitCustomerBtn">
         <span class="spinner"></span>
         <span>🚀 إرسال بيانات العميل</span>
       </button>
     </form>
   </div>
-
+  
   <!-- PAGE 5: Direct Client Form -->
   <div class="page" id="page-client-direct">
     <button class="back-btn" onclick="goBack()">← رجوع</button>
-
+    
     <!-- Formspree Form for Direct Client -->
     <form id="clientFormDirect" action="https://formspree.io/f/xvzezqkn" method="POST">
       <input type="hidden" name="_subject" value="Al EmlaQ - New Client (Direct)">
       <input type="hidden" name="form_type" value="direct_client">
-
+      
       <div class="card">
         <div class="section-title">
           <span>🛂</span>
           <span id="clientDirectTitle">بياناتك الشخصية</span>
         </div>
-
+        
         <div class="form-grid">
           <div class="form-group">
             <label for="clientName" class="required" id="labelClientName">الاسم الكامل</label>
@@ -849,12 +837,12 @@
             <input type="tel" id="clientPhone" name="client_phone" required>
           </div>
         </div>
-
+        
         <div class="form-group">
           <label for="clientEmail" id="labelClientEmail">البريد الإلكتروني (إن وجد)</label>
           <input type="email" id="clientEmail" name="client_email">
         </div>
-
+        
         <div class="form-grid">
           <div class="form-group">
             <label for="clientDestination" class="required" id="labelClientDestination">الوجهة</label>
@@ -865,13 +853,13 @@
             <input type="date" id="clientTravelDate" name="travel_date" required>
           </div>
         </div>
-
+        
         <div class="form-group">
           <label for="clientNotes" id="labelClientNotes">ملاحظات</label>
           <textarea id="clientNotes" name="notes"></textarea>
         </div>
       </div>
-
+      
       <div class="card">
         <div class="section-title">
           <span>📄</span>
@@ -885,7 +873,7 @@
         <input type="file" id="clientPassportInput" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(this, 'clientPassport')">
         <div class="file-list" id="clientPassportList"></div>
       </div>
-
+      
       <div class="card">
         <div class="section-title">
           <span>📎</span>
@@ -899,14 +887,14 @@
         <input type="file" id="clientDocsInput" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(this, 'clientDocs')">
         <div class="file-list" id="clientDocsList"></div>
       </div>
-
+      
       <button type="submit" class="submit-btn" id="submitClientBtn">
         <span class="spinner"></span>
         <span>🚀 إرسال الطلب</span>
       </button>
     </form>
   </div>
-
+  
   <!-- PAGE 6: Success -->
   <div class="page" id="page-success">
     <div class="success-message show" style="display:block;">
@@ -917,7 +905,7 @@
       <button class="btn btn-secondary" onclick="resetApp()" id="newEntryBtn">🔄 إدخال جديد</button>
     </div>
   </div>
-
+  
   <!-- Contact Bar -->
   <div class="contact-bar" id="contactBar" style="margin-top:20px;">
     <a class="contact-item" href="https://wa.me/201509025388" target="_blank">
@@ -947,14 +935,14 @@
     }
   }
   createParticles();
-
+  
   // State
   let currentLang = 'ar';
   let selectedRole = null;
   let repData = {};
   let files = { passport: [], photo: [], docs: [], clientPassport: [], clientDocs: [] };
   let pageHistory = ['page-role'];
-
+  
   // Translations
   const translations = {
     ar: {
@@ -1028,14 +1016,14 @@
       repInfoTitle: '🤝 Representative / Company'
     }
   };
-
+  
   function setLang(lang) {
     currentLang = lang;
     document.body.className = lang === 'ar' ? 'rtl' : 'ltr';
     document.getElementById('btnAr').classList.toggle('active', lang === 'ar');
     document.getElementById('btnEn').classList.toggle('active', lang === 'en');
     const tr = translations[lang];
-
+    
     document.getElementById('tagline').textContent = tr.tagline;
     document.getElementById('whoAreYou').textContent = tr.whoAreYou;
     document.getElementById('roleRep').textContent = tr.roleRep;
@@ -1088,14 +1076,14 @@
     document.getElementById('newEntryBtn').textContent = tr.newEntryBtn;
     document.querySelector('#repInfoDisplay h4').textContent = tr.repInfoTitle;
   }
-
+  
   function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
     pageHistory.push(pageId);
     window.scrollTo(0, 0);
   }
-
+  
   function goBack() {
     if (pageHistory.length > 1) {
       pageHistory.pop();
@@ -1105,7 +1093,7 @@
       window.scrollTo(0, 0);
     }
   }
-
+  
   function selectRole(role) {
     selectedRole = role;
     document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
@@ -1114,13 +1102,13 @@
       document.getElementById('disclaimer-modal').classList.add('show');
     }, 300);
   }
-
+  
   function closeDisclaimer() {
     document.getElementById('disclaimer-modal').classList.remove('show');
     document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
     selectedRole = null;
   }
-
+  
   function acceptDisclaimer() {
     document.getElementById('disclaimer-modal').classList.remove('show');
     if (selectedRole === 'client') {
@@ -1129,30 +1117,30 @@
       showPage('page-rep-reg');
     }
   }
-
+  
   function submitRepReg() {
     const name = document.getElementById('repName').value.trim();
     const phone = document.getElementById('repPhone').value.trim();
     const company = document.getElementById('repCompanyName').value.trim();
-
+    
     if (!name || !phone || !company) {
       alert(currentLang === 'ar' ? 'يرجى ملء جميع الحقول المطلوبة' : 'Please fill all required fields');
       return;
     }
-
+    
     repData = { name, phone, company };
     document.getElementById('displayRepName').textContent = name;
     document.getElementById('displayRepCompany').textContent = company;
     document.getElementById('displayRepPhone').textContent = phone;
-
+    
     // Fill hidden fields for Formspree
     document.getElementById('hiddenRepName').value = name;
     document.getElementById('hiddenRepCompany').value = company;
     document.getElementById('hiddenRepPhone').value = phone;
-
+    
     showPage('page-add-customer-rep');
   }
-
+  
   // File handling
   function handleFileSelect(input, type) {
     const newFiles = Array.from(input.files);
@@ -1167,7 +1155,7 @@
     renderFileList(type);
     input.value = '';
   }
-
+  
   function renderFileList(type) {
     const listEl = document.getElementById(type + 'List');
     if (!listEl || !files[type] || files[type].length === 0) { if(listEl) listEl.innerHTML = ''; return; }
@@ -1180,23 +1168,23 @@
         <button type="button" class="remove-btn" onclick="removeFile('${type}',${i})">×</button>
       </div>`).join('');
   }
-
+  
   function updateFileName(type, i, name) { if(files[type]) files[type][i].customName = name; }
   function removeFile(type, i) { if(files[type]) { files[type].splice(i,1); renderFileList(type); } }
   function formatSize(b) { if(b===0)return'0 B'; const k=1024,s=['B','KB','MB','GB'],i=Math.floor(Math.log(b)/Math.log(k)); return parseFloat((b/Math.pow(k,i)).toFixed(1))+' '+s[i]; }
-
+  
   // Handle form submissions with Formspree
   document.getElementById('customerFormRep').addEventListener('submit', function(e) {
     const btn = document.getElementById('submitCustomerBtn');
     btn.classList.add('loading');
-
+    
     if (!files.passport || files.passport.length === 0) {
       e.preventDefault();
       alert(currentLang === 'ar' ? 'يرجى رفع صورة جواز السفر' : 'Please upload passport photo');
       btn.classList.remove('loading');
       return;
     }
-
+    
     // Form will submit normally to Formspree
     // Show success page after a short delay
     setTimeout(() => {
@@ -1204,24 +1192,24 @@
       showPage('page-success');
     }, 2000);
   });
-
+  
   document.getElementById('clientFormDirect').addEventListener('submit', function(e) {
     const btn = document.getElementById('submitClientBtn');
     btn.classList.add('loading');
-
+    
     if (!files.clientPassport || files.clientPassport.length === 0) {
       e.preventDefault();
       alert(currentLang === 'ar' ? 'يرجى رفع صورة جواز السفر' : 'Please upload passport photo');
       btn.classList.remove('loading');
       return;
     }
-
+    
     setTimeout(() => {
       btn.classList.remove('loading');
       showPage('page-success');
     }, 2000);
   });
-
+  
   function resetApp() {
     files = { passport: [], photo: [], docs: [], clientPassport: [], clientDocs: [] };
     repData = {};
@@ -1234,10 +1222,10 @@
     document.getElementById('page-role').classList.add('active');
     window.scrollTo(0, 0);
   }
-
+  
   // Init
   setLang('ar');
 </script>
 
 </body>
-</html>
+</html>'''
